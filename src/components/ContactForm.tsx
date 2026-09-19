@@ -56,17 +56,26 @@ export default function ContactForm() {
 
     const formData = new FormData(formRef.current);
 
+    // Si no se seleccionó archivo, eliminamos el campo para evitar enviar un archivo vacío de 0 bytes
+    if (!selectedFile) {
+      formData.delete("fi-file-plano_tecnico");
+    }
+
     try {
-      // 1. Intento con el SDK oficial de Forminit si cargó en el navegador
+      let isSuccess = false;
+      let errorMsg = "";
+
+      // 1. Intento con el SDK de Forminit si está disponible
       if (typeof window !== "undefined" && (window as any).Forminit) {
         const forminit = new (window as any).Forminit();
-        const { error } = await forminit.submit(FORM_ID, formData);
-
-        if (error) {
-          throw new Error(error.message);
+        const res = await forminit.submit(FORM_ID, formData);
+        if (res?.error) {
+          errorMsg = res.error.message || "Error al enviar";
+        } else {
+          isSuccess = true;
         }
       } else {
-        // 2. Respaldo directo vía Fetch a la API de Forminit (por si hay bloqueador de scripts)
+        // 2. Envío directo por Fetch a Forminit
         const response = await fetch(`https://forminit.com/f/${FORM_ID}`, {
           method: "POST",
           body: formData,
@@ -75,9 +84,17 @@ export default function ContactForm() {
           },
         });
 
+        const data = await response.json().catch(() => null);
+
         if (!response.ok) {
-          throw new Error(`Error en el servidor (${response.status})`);
+          errorMsg = data?.message || `Error del servidor (${response.status})`;
+        } else {
+          isSuccess = true;
         }
+      }
+
+      if (!isSuccess) {
+        throw new Error(errorMsg || "No se pudo procesar el envío.");
       }
 
       setStatus("success");
