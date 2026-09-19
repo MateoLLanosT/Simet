@@ -1,0 +1,489 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Formulario de Contacto - Simet</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@600;700;800&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --rojo: #8a1414;
+    --rojo-oscuro: #6b0f0f;
+    --azul-oscuro: #16233d;
+    --gris-fondo: #f6f7f9;
+    --borde: #e6e6ea;
+  }
+  * { box-sizing: border-box; }
+  body {
+    font-family: 'Inter', Arial, Helvetica, sans-serif;
+    background: #f0f1f4;
+    margin: 0;
+    padding: 50px 20px;
+    color: #24262b;
+  }
+  .contacto-wrapper {
+    max-width: 1100px;
+    margin: 0 auto;
+  }
+  .intro {
+    text-align: center;
+    max-width: 640px;
+    margin: 0 auto 36px auto;
+  }
+  .intro h1 {
+    font-family: 'Poppins', sans-serif;
+    font-size: 42px;
+    font-weight: 800;
+    color: var(--azul-oscuro);
+    margin-bottom: 12px;
+    letter-spacing: -0.5px;
+  }
+  .intro p {
+    color: #666;
+    line-height: 1.6;
+    font-size: 16px;
+  }
+  .contacto-grid {
+    display: flex;
+    flex-wrap: wrap;
+    background: #ffffff;
+    border-radius: 24px;
+    box-shadow: 0 10px 40px rgba(22, 35, 61, 0.08), 0 2px 8px rgba(22, 35, 61, 0.04);
+    overflow: hidden;
+  }
+  .form-lado {
+    flex: 1.8 1 420px;
+    padding: 48px;
+  }
+  .info-lado {
+    flex: 1 1 280px;
+    background: var(--gris-fondo);
+  }
+  .eyebrow {
+    font-size: 12px;
+    letter-spacing: 1.5px;
+    color: var(--rojo);
+    text-transform: uppercase;
+    font-weight: 700;
+    margin-bottom: 10px;
+  }
+  .form-lado h2 {
+    font-family: 'Poppins', sans-serif;
+    margin: 0 0 12px 0;
+    font-size: 28px;
+    font-weight: 700;
+    color: var(--azul-oscuro);
+  }
+  .form-lado .descripcion {
+    color: #666;
+    line-height: 1.5;
+    font-size: 14px;
+    margin-bottom: 28px;
+  }
+  hr {
+    display: none;
+  }
+  .campos-fila {
+    display: flex;
+    gap: 20px;
+    flex-wrap: wrap;
+  }
+  .campo {
+    flex: 1 1 200px;
+    margin-bottom: 22px;
+  }
+  label.etiqueta {
+    display: block;
+    font-size: 13px;
+    color: #333;
+    font-weight: 600;
+    margin-bottom: 8px;
+  }
+  input[type="text"],
+  input[type="email"],
+  input[type="tel"],
+  select,
+  textarea {
+    display: block;
+    width: 100%;
+    padding: 14px 16px;
+    border: 1.5px solid var(--borde);
+    background: #fafafa;
+    border-radius: 12px;
+    font-size: 14.5px;
+    font-family: inherit;
+    color: #24262b;
+    transition: border-color 0.15s ease, background 0.15s ease;
+  }
+  input[type="text"]:focus,
+  input[type="email"]:focus,
+  input[type="tel"]:focus,
+  select:focus,
+  textarea:focus {
+    outline: none;
+    border-color: var(--rojo);
+    background: #ffffff;
+  }
+  textarea {
+    min-height: 100px;
+    resize: vertical;
+  }
+  .zona-carga {
+    border: 2px dashed #d5d5da;
+    border-radius: 16px;
+    text-align: center;
+    padding: 34px 20px;
+    background: #fafafa;
+    cursor: pointer;
+    transition: border-color 0.15s ease, background 0.15s ease;
+  }
+  .zona-carga:hover {
+    border-color: var(--rojo);
+    background: #fdf6f6;
+  }
+  .zona-carga .icono-subir {
+    width: 44px;
+    height: 44px;
+    border-radius: 14px;
+    background: var(--rojo);
+    color: #fff;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 0 auto 14px auto;
+    font-size: 18px;
+  }
+  .zona-carga p {
+    margin: 4px 0;
+    font-size: 14px;
+    color: #444;
+  }
+  .zona-carga small {
+    color: #999;
+    font-size: 12px;
+  }
+  .zona-carga a {
+    color: var(--rojo);
+    font-weight: 600;
+    text-decoration: none;
+  }
+  .zona-carga a:hover { text-decoration: underline; }
+  #archivo-input { display: none; }
+  #nombre-archivo {
+    margin-top: 10px;
+    font-size: 13px;
+    font-weight: 600;
+    color: var(--rojo);
+    display: none;
+  }
+  button[type="submit"] {
+    background-color: var(--rojo);
+    color: #ffffff;
+    border: none;
+    padding: 16px 36px;
+    border-radius: 14px;
+    font-weight: 700;
+    letter-spacing: 0.3px;
+    font-size: 14px;
+    cursor: pointer;
+    margin-top: 6px;
+    box-shadow: 0 6px 16px rgba(138, 20, 20, 0.25);
+    transition: background 0.15s ease, transform 0.1s ease;
+  }
+  button[type="submit"]:hover { background-color: var(--rojo-oscuro); transform: translateY(-1px); }
+  button[type="submit"]:disabled { background-color: #cfcfcf; box-shadow: none; cursor: not-allowed; transform: none; }
+
+  .whatsapp-box {
+    margin-top: 26px;
+    background: var(--gris-fondo);
+    border-radius: 16px;
+    padding: 18px 22px;
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    font-size: 13px;
+  }
+  .whatsapp-box .avatar {
+    width: 36px;
+    height: 36px;
+    border-radius: 11px;
+    background: #25d366;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 11px;
+    font-weight: 700;
+    color: #fff;
+    flex-shrink: 0;
+  }
+  .whatsapp-box a {
+    color: var(--azul-oscuro);
+    font-weight: 700;
+    text-decoration: none;
+  }
+  .whatsapp-box a:hover { text-decoration: underline; }
+  .whatsapp-box p { margin: 0; color: #555; }
+
+  #mensaje-resultado {
+    margin-top: 16px;
+    font-weight: 600;
+    font-size: 14px;
+    display: none;
+  }
+  #mensaje-resultado.exito { color: #1a7a3c; }
+  #mensaje-resultado.error { color: #b00000; }
+
+  /* Columna derecha */
+  .info-bloque {
+    padding: 32px;
+    border-bottom: 1px solid var(--borde);
+  }
+  .info-bloque:last-child { border-bottom: none; }
+  .info-bloque h3 {
+    font-size: 11px;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    color: #999;
+    font-weight: 700;
+    margin: 0 0 18px 0;
+  }
+  .info-linea {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    margin-bottom: 16px;
+    font-size: 14px;
+    color: #333;
+    font-weight: 500;
+  }
+  .info-linea:last-child { margin-bottom: 0; }
+  .icono-badge {
+    width: 34px;
+    height: 34px;
+    min-width: 34px;
+    border-radius: 10px;
+    background: var(--rojo);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 0 3px 8px rgba(138, 20, 20, 0.25);
+  }
+  .icono-badge svg { width: 16px; height: 16px; fill: #ffffff; }
+  .info-bloque p { font-size: 13px; color: #555; line-height: 1.6; margin: 0; }
+  .info-bloque p strong { color: var(--azul-oscuro); }
+  .servicios-lista { list-style: none; padding: 0; margin: 0; }
+  .servicios-lista li {
+    font-size: 14px;
+    color: #333;
+    font-weight: 500;
+    padding: 6px 0;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+  .servicios-lista li::before {
+    content: "";
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+    background: var(--rojo);
+    flex-shrink: 0;
+  }
+
+  @media (max-width: 700px) {
+    .contacto-grid { border-radius: 18px; }
+    .form-lado { padding: 32px 24px; }
+    .info-bloque { padding: 24px; }
+  }
+</style>
+</head>
+<body>
+
+<div class="contacto-wrapper">
+
+  <div class="intro">
+    <h1>Contacto</h1>
+    <p>Cuéntanos tu idea y nuestro equipo te responderá con una propuesta ajustada a tus necesidades.</p>
+  </div>
+
+  <div class="contacto-grid">
+
+    <!-- Columna izquierda: formulario -->
+    <div class="form-lado">
+      <div class="eyebrow">Formulario de contacto</div>
+      <h2>Solicitar cotización</h2>
+      <p class="descripcion">Complete el formulario con los detalles de su requerimiento. Nuestro equipo técnico le responderá en menos de 24 horas hábiles.</p>
+      <hr>
+
+      <form id="formulario-cotizacion">
+
+      
+
+        <div class="campos-fila">
+          <div class="campo">
+            <label class="etiqueta">Nombre completo *</label>
+            <input type="text" name="fi-sender-fullName" placeholder="Ej. Carlos Ramírez" required>
+          </div>
+          <div class="campo">
+            <label class="etiqueta">Empresa</label>
+            <input type="text" name="fi-sender-company" placeholder="Ej. Industrias XYZ S.A.S">
+          </div>
+        </div>
+
+        <div class="campos-fila">
+          <div class="campo">
+            <label class="etiqueta">Correo electrónico *</label>
+            <input type="email" name="fi-sender-email" placeholder="correo@empresa.com" required>
+          </div>
+          <div class="campo">
+            <label class="etiqueta">Teléfono / WhatsApp</label>
+            <input type="text" name="fi-sender-phone" placeholder="+57 300 000 0000">
+          </div>
+        </div>
+
+        <div class="campo">
+          <label class="etiqueta">Servicio de interés *</label>
+          <select name="fi-select-servicio_interes" required>
+            <option value="">-- Seleccione un servicio --</option>
+            <option value="Mecanizado CNC">Mecanizado CNC</option>
+            <option value="Corte Láser">Corte Láser</option>
+            <option value="Diseño 3D">Diseño 3D</option>
+            <option value="Diseño de proyectos">Diseño de proyectos</option>
+            <option value="Asesoría técnica">Asesoría técnica</option>
+          </select>
+        </div>
+
+        <div class="campo">
+          <label class="etiqueta">Descripción técnica del requerimiento *</label>
+          <textarea name="fi-text-descripcion_tecnica" placeholder="Describa materiales, dimensiones, tolerancias, cantidad de piezas, plazos de entrega u otros detalles técnicos relevantes..." required></textarea>
+        </div>
+
+        <div class="campo">
+          <label class="etiqueta">Adjuntar plano o descripción técnica</label>
+          <div class="zona-carga" id="zona-carga">
+            <div class="icono-subir">&#8593;</div>
+            <p>Arrastre su archivo aquí o <a href="#" id="link-seleccionar">seleccione desde su equipo</a></p>
+            <small>PDF, DWG, STEP, STL - máx. 20 MB</small>
+            <div id="nombre-archivo"></div>
+          </div>
+          <input type="file" id="archivo-input" name="fi-file-plano_tecnico" accept=".pdf,.dwg,.step,.stl">
+        </div>
+
+        <button type="submit">Enviar solicitud</button>
+        <div id="mensaje-resultado"></div>
+
+        <div class="whatsapp-box">
+          <div class="avatar">WA</div>
+          <p>¿Prefiere contactarnos directamente?<br>
+          <a href="https://wa.me/573173315892" target="_blank" rel="noopener">Escribir por WhatsApp corporativo →</a></p>
+        </div>
+
+      </form>
+    </div>
+
+    <!-- Columna derecha: información -->
+    <div class="info-lado">
+      <div class="info-bloque">
+        <h3>Información de contacto</h3>
+        <div class="info-linea">
+          <span class="icono-badge"><svg viewBox="0 0 24 24"><path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5A2.5 2.5 0 1 1 12 6.5a2.5 2.5 0 0 1 0 5z"/></svg></span>
+          Carrera 3 # 16-58 Mosquera, Cundinamarca
+        </div>
+        <div class="info-linea">
+          <span class="icono-badge"><svg viewBox="0 0 24 24"><path d="M6.6 10.8c1.4 2.8 3.8 5.1 6.6 6.6l2.2-2.2c.3-.3.7-.4 1-.2 1.1.4 2.3.6 3.6.6.6 0 1 .4 1 1V20c0 .6-.4 1-1 1C10.6 21 3 13.4 3 4c0-.6.4-1 1-1h3.5c.6 0 1 .4 1 1 0 1.2.2 2.4.6 3.6.1.4 0 .8-.3 1L6.6 10.8z"/></svg></span>
+          (317) 331 5892 – (317) 331 5890
+        </div>
+        <div class="info-linea">
+          <span class="icono-badge"><svg viewBox="0 0 24 24"><path d="M20 4H4c-1.1 0-1.99.9-1.99 2L2 18c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm0 4-8 5-8-5V6l8 5 8-5v2z"/></svg></span>
+          atencionalcliente@simet.com.co
+        </div>
+        <div class="info-linea">
+          <span class="icono-badge"><svg viewBox="0 0 24 24"><path d="M12 2a10 10 0 1 0 0 20 10 10 0 0 0 0-20zm.5 5H11v6l5.2 3.1.8-1.3-4.5-2.7V7z"/></svg></span>
+          Lun–Vie 7:00am – 5:00pm
+        </div>
+      </div>
+
+      <div class="info-bloque">
+        <h3>Tiempo de respuesta</h3>
+        <p>Respondemos solicitudes en menos de <strong>24 horas hábiles</strong>. Para urgencias, contáctenos directamente por WhatsApp.</p>
+      </div>
+
+      <div class="info-bloque">
+        <h3>Servicios disponibles</h3>
+        <ul class="servicios-lista">
+          <li>Mecanizado CNC</li>
+          <li>Corte Láser</li>
+          <li>Diseño 3D</li>
+          <li>Diseño de proyectos</li>
+          <li>Asesoría técnica</li>
+        </ul>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<script src="https://forminit.com/sdk/v1/forminit.js"></script>
+<script>
+const forminit = new Forminit();
+const FORM_ID = 'ltt2uz1fki8'; // ⚠️ Reemplaza con tu Form ID de Forminit
+
+const form = document.getElementById('formulario-cotizacion');
+const resultado = document.getElementById('mensaje-resultado');
+const zonaCarga = document.getElementById('zona-carga');
+const archivoInput = document.getElementById('archivo-input');
+const linkSeleccionar = document.getElementById('link-seleccionar');
+const nombreArchivo = document.getElementById('nombre-archivo');
+
+linkSeleccionar.addEventListener('click', function (e) {
+  e.preventDefault();
+  archivoInput.click();
+});
+zonaCarga.addEventListener('click', function () { archivoInput.click(); });
+archivoInput.addEventListener('change', function () {
+  if (archivoInput.files.length > 0) {
+    nombreArchivo.style.display = 'block';
+    nombreArchivo.textContent = 'Archivo seleccionado: ' + archivoInput.files[0].name;
+  }
+});
+zonaCarga.addEventListener('dragover', function (e) { e.preventDefault(); zonaCarga.style.background = '#f0f0f0'; });
+zonaCarga.addEventListener('dragleave', function () { zonaCarga.style.background = '#fafafa'; });
+zonaCarga.addEventListener('drop', function (e) {
+  e.preventDefault();
+  zonaCarga.style.background = '#fafafa';
+  if (e.dataTransfer.files.length > 0) {
+    archivoInput.files = e.dataTransfer.files;
+    nombreArchivo.style.display = 'block';
+    nombreArchivo.textContent = 'Archivo seleccionado: ' + e.dataTransfer.files[0].name;
+  }
+});
+
+form.addEventListener('submit', async function (e) {
+  e.preventDefault();
+  const boton = form.querySelector('button[type="submit"]');
+  boton.disabled = true;
+  boton.textContent = 'Enviando...';
+
+  const formData = new FormData(form);
+  const { data, error } = await forminit.submit(FORM_ID, formData);
+
+  resultado.style.display = 'block';
+  if (error) {
+    resultado.className = 'error';
+    resultado.textContent = 'Hubo un problema al enviar el formulario: ' + error.message + '. Por favor intenta de nuevo o escríbenos directamente a atencionalcliente@simet.com.co';
+  } else {
+    resultado.className = 'exito';
+    resultado.textContent = '¡Gracias! Tu solicitud fue enviada correctamente. Te responderemos en menos de 24 horas hábiles.';
+    form.reset();
+    nombreArchivo.style.display = 'none';
+  }
+
+  boton.disabled = false;
+  boton.textContent = 'Enviar solicitud';
+});
+</script>
+
+</body>
+</html>
