@@ -5,16 +5,16 @@ import ContactForm from "@/components/ContactForm";
 
 const services = [
   {
-    image: "https://images.unsplash.com/photo-1581092795360-fd1ca04f0952?auto=format&fit=crop&w=600&q=80",
+    image: "https://images.unsplash.com/photo-1581092160607-ee22621dd758?auto=format&fit=crop&w=600&q=80",
     title: "Centro de Fabricación y Diseño CNC",
     description: "Mecanizado de precisión, fabricación de piezas especiales, diseño industrial, torno, fresa y reparación de maquinaria.",
-    link: "/servicios/mecanizado-cnc",
+    link: "/servicios/modelado-3d",
   },
   {
     image: "https://images.unsplash.com/photo-1504328345606-18bbc8c9d7d1?auto=format&fit=crop&w=600&q=80",
     title: "Corte Láser de Alta Precisión",
     description: "Corte de alta precisión para proyectos industriales, arquitectónicos, publicitarios y decorativos.",
-    link: "/servicios/corte-laser",
+    link: "/#contacto",
   },
   {
     image: "https://images.unsplash.com/photo-1581092162384-8987c1d64718?auto=format&fit=crop&w=600&q=80",
@@ -127,7 +127,37 @@ export default function Home() {
           className="simet-hero-inner"
         >
           <div style={{ maxWidth: 740 }}>
-            
+            <span
+              style={{
+                fontSize: "0.8rem",
+                fontWeight: 700,
+                letterSpacing: "2.5px",
+                color: "#38bdf8",
+                textTransform: "uppercase",
+                marginBottom: 16,
+                display: "inline-flex",
+                alignItems: "center",
+                gap: "8px",
+                background: "rgba(56, 189, 248, 0.12)",
+                backdropFilter: "blur(10px)",
+                WebkitBackdropFilter: "blur(10px)",
+                border: "1px solid rgba(56, 189, 248, 0.25)",
+                padding: "6px 14px",
+                borderRadius: "100px",
+              }}
+            >
+              <span
+                style={{
+                  width: "6px",
+                  height: "6px",
+                  borderRadius: "50%",
+                  background: "#38bdf8",
+                  boxShadow: "0 0 8px #38bdf8",
+                }}
+              />
+              METALMECÁNICA DE PRECISIÓN
+            </span>
+
             <h1
               style={{
                 fontSize: "clamp(2.4rem, 4.4vw, 3.8rem)",
@@ -486,7 +516,6 @@ export default function Home() {
             ))}
           </div>
 
-          {/* Badges Glass */}
           <div
             style={{
               display: "flex",
