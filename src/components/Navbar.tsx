@@ -9,6 +9,8 @@ const navLinks = [
   {
     label: "Servicios",
     children: [
+      { href: "/servicios/mecanizado-cnc", label: "Centro de Mecanizado y Torno CNC" },
+      { href: "/servicios/corte-laser", label: "Corte Láser de Alta Precisión" },
       { href: "/servicios/diseno-proyectos", label: "Diseño de Proyectos Metalmecánicos" },
       { href: "/servicios/modelado-3d", label: "Modelado 3D para Manufactura" },
       { href: "/servicios/asesoria-dfm", label: "Asesoría Técnica en DFM y Costos" },
@@ -25,12 +27,14 @@ export default function Navbar() {
   return (
     <header
       style={{
-        backgroundColor: "var(--white)",
-        borderBottom: "1px solid #e2e8f0",
+        background: "rgba(255, 255, 255, 0.82)",
+        backdropFilter: "blur(16px)",
+        WebkitBackdropFilter: "blur(16px)",
+        borderBottom: "1px solid rgba(226, 232, 240, 0.8)",
         position: "sticky",
         top: 0,
         zIndex: 1000,
-        boxShadow: "0 2px 10px rgba(0, 0, 0, 0.04)",
+        boxShadow: "0 4px 20px -2px rgba(15, 23, 42, 0.04)",
       }}
     >
       <div
@@ -44,6 +48,7 @@ export default function Navbar() {
           height: 80,
         }}
       >
+        {/* LOGO */}
         <Link href="/" style={{ display: "flex", alignItems: "center" }}>
           <Image
             src="/legacy/Logo-simet-.png"
@@ -51,52 +56,61 @@ export default function Navbar() {
             width={160}
             height={50}
             priority
+            style={{ width: "auto", height: 46 }}
           />
         </Link>
 
+        {/* BOTÓN HAMBURGUESA MÓVIL */}
         <button
           onClick={() => setMenuOpen(!menuOpen)}
           aria-label="Abrir Menú"
           style={{
             display: "none",
-            background: "transparent",
-            border: "none",
+            background: "rgba(241, 245, 249, 0.8)",
+            border: "1px solid #cbd5e1",
+            borderRadius: "8px",
             cursor: "pointer",
-            padding: 8,
+            padding: "8px",
             color: "var(--navy-icons)",
           }}
           className="simet-burger"
         >
-          <svg width={28} height={28} viewBox="0 0 24 24" fill="currentColor">
+          <svg width={26} height={26} viewBox="0 0 24 24" fill="currentColor">
             <path d="M3 6h18v2H3V6m0 5h18v2H3v-2m0 5h18v2H3v-2Z" />
           </svg>
         </button>
 
+        {/* MENÚ DE NAVEGACIÓN */}
         <ul
           style={{
             display: "flex",
             alignItems: "center",
             listStyle: "none",
-            gap: 20,
+            gap: 14,
           }}
           className={`simet-nav-menu ${menuOpen ? "open" : ""}`}
         >
           <li>
             <Link
               href="/"
+              onClick={() => setMenuOpen(false)}
               style={{
                 textDecoration: "none",
                 color: "var(--text-main)",
                 fontWeight: 600,
-                fontSize: "0.95rem",
-                padding: "8px 6px",
+                fontSize: "0.92rem",
+                padding: "8px 12px",
+                borderRadius: "8px",
                 transition: "var(--transition)",
+                display: "block",
               }}
+              className="simet-nav-item"
             >
               Inicio
             </Link>
           </li>
 
+          {/* DESPLEGABLE CON LOS 5 SERVICIOS */}
           <li
             className="simet-dropdown"
             onMouseEnter={() => setDropdownOpen(true)}
@@ -104,17 +118,20 @@ export default function Navbar() {
             style={{ position: "relative" }}
           >
             <span
+              onClick={() => setDropdownOpen(!dropdownOpen)}
               style={{
                 color: "var(--text-main)",
                 fontWeight: 600,
-                fontSize: "0.95rem",
-                padding: "8px 6px",
+                fontSize: "0.92rem",
+                padding: "8px 12px",
+                borderRadius: "8px",
                 display: "flex",
                 alignItems: "center",
-                gap: 5,
+                gap: 6,
                 cursor: "pointer",
                 transition: "var(--transition)",
               }}
+              className="simet-nav-item"
             >
               Servicios
               <svg
@@ -130,38 +147,49 @@ export default function Navbar() {
                 <path d="M7.41 8.59 12 13.17l4.59-4.58L18 10l-6 6-6-6 1.41-1.41z" />
               </svg>
             </span>
+
+            {/* MENÚ FLOTANTE GLASS */}
             <ul
               style={{
                 position: "absolute",
-                top: "calc(100% + 12px)",
+                top: "calc(100% + 10px)",
                 left: 0,
-                minWidth: 275,
-                background: "var(--white)",
+                minWidth: 310,
+                background: "rgba(255, 255, 255, 0.94)",
+                backdropFilter: "blur(20px)",
+                WebkitBackdropFilter: "blur(20px)",
                 borderRadius: "var(--radius-md)",
-                boxShadow: "var(--shadow-card)",
-                border: "1px solid #e2e8f0",
-                padding: "10px 0",
+                boxShadow: "0 20px 40px -10px rgba(15, 23, 42, 0.12), 0 0 0 1px rgba(255, 255, 255, 0.8) inset",
+                border: "1px solid rgba(226, 232, 240, 0.85)",
+                padding: "8px",
                 listStyle: "none",
                 opacity: dropdownOpen ? 1 : 0,
                 visibility: dropdownOpen ? "visible" : "hidden",
-                transform: dropdownOpen ? "translateY(0)" : "translateY(10px)",
+                transform: dropdownOpen ? "translateY(0)" : "translateY(8px)",
                 transition: "var(--transition)",
                 zIndex: 100,
               }}
+              className="simet-dropdown-list"
             >
               {navLinks[1].children?.map((child) => (
-                <li key={child.href}>
+                <li key={child.href} style={{ listStyle: "none" }}>
                   <Link
                     href={child.href}
+                    onClick={() => {
+                      setDropdownOpen(false);
+                      setMenuOpen(false);
+                    }}
                     style={{
                       display: "block",
-                      padding: "10px 20px",
-                      color: "var(--text-main)",
+                      padding: "11px 16px",
+                      color: "#334155",
                       textDecoration: "none",
-                      fontSize: "0.92rem",
-                      fontWeight: 500,
+                      fontSize: "0.89rem",
+                      fontWeight: 600,
+                      borderRadius: "8px",
                       transition: "var(--transition)",
                     }}
+                    className="simet-sublink"
                   >
                     {child.label}
                   </Link>
@@ -173,13 +201,17 @@ export default function Navbar() {
           <li>
             <a
               href="/#productos"
+              onClick={() => setMenuOpen(false)}
               style={{
                 color: "var(--text-main)",
                 fontWeight: 600,
-                fontSize: "0.95rem",
-                padding: "8px 6px",
+                fontSize: "0.92rem",
+                padding: "8px 12px",
+                borderRadius: "8px",
                 transition: "var(--transition)",
+                display: "block",
               }}
+              className="simet-nav-item"
             >
               Productos
             </a>
@@ -188,35 +220,43 @@ export default function Navbar() {
           <li>
             <a
               href="/#conocenos"
+              onClick={() => setMenuOpen(false)}
               style={{
                 color: "var(--text-main)",
                 fontWeight: 600,
-                fontSize: "0.95rem",
-                padding: "8px 6px",
+                fontSize: "0.92rem",
+                padding: "8px 12px",
+                borderRadius: "8px",
                 transition: "var(--transition)",
+                display: "block",
               }}
+              className="simet-nav-item"
             >
               Conócenos
             </a>
           </li>
 
-          <li>
+          <li style={{ marginLeft: 6 }}>
             <a
               href="/#contacto"
+              onClick={() => setMenuOpen(false)}
               style={{
-                backgroundColor: "var(--primary-red)",
+                background: "linear-gradient(135deg, var(--primary-red) 0%, #7d141b 100%)",
                 color: "var(--white)",
-                padding: "10px 24px",
-                borderRadius: "var(--radius-sm)",
+                padding: "11px 24px",
+                borderRadius: "100px",
                 textDecoration: "none",
                 fontWeight: 700,
-                fontSize: "0.92rem",
-                letterSpacing: "0.5px",
+                fontSize: "0.86rem",
+                letterSpacing: "0.6px",
                 transition: "var(--transition)",
                 display: "inline-flex",
                 alignItems: "center",
                 justifyContent: "center",
+                boxShadow: "0 8px 18px -4px rgba(158, 28, 37, 0.4), inset 0 1px 1px rgba(255, 255, 255, 0.35)",
+                border: "1px solid rgba(255, 255, 255, 0.2)",
               }}
+              className="hover-lift"
             >
               CONTACTO
             </a>
@@ -225,6 +265,16 @@ export default function Navbar() {
       </div>
 
       <style>{`
+        .simet-nav-item:hover {
+          color: var(--primary-red) !important;
+          background: rgba(158, 28, 37, 0.06);
+        }
+        .simet-sublink:hover {
+          background: rgba(158, 28, 37, 0.08) !important;
+          color: var(--primary-red) !important;
+          transform: translateX(4px);
+        }
+
         @media (max-width: 900px) {
           .simet-burger { display: block !important; }
           .simet-nav-menu {
@@ -232,18 +282,28 @@ export default function Navbar() {
             top: 80px !important;
             left: 0 !important;
             width: 100% !important;
-            background-color: var(--white) !important;
+            background: rgba(255, 255, 255, 0.98) !important;
+            backdrop-filter: blur(20px) !important;
             flex-direction: column !important;
             align-items: flex-start !important;
             padding: 24px !important;
             gap: 0 !important;
-            box-shadow: 0 10px 20px rgba(0,0,0,0.1) !important;
+            box-shadow: 0 15px 30px rgba(0,0,0,0.12) !important;
             display: none !important;
             max-height: calc(100vh - 80px) !important;
             overflow-y: auto !important;
+            border-bottom: 1px solid #cbd5e1;
           }
           .simet-nav-menu.open { display: flex !important; }
-          .simet-nav-menu > li { width: 100%; border-bottom: 1px solid #f1f5f9; }
+          .simet-nav-menu > li { width: 100%; border-bottom: 1px solid rgba(241, 245, 249, 0.9); }
+          .simet-dropdown-list {
+            position: static !important;
+            box-shadow: none !important;
+            border: none !important;
+            padding: 4px 0 8px 12px !important;
+            background: #f8fafc !important;
+            transform: none !important;
+          }
         }
       `}</style>
     </header>

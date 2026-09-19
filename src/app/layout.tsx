@@ -4,7 +4,7 @@ import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 
 export const metadata: Metadata = {
-  title: "SIMET S.A.S. | Metalmecánica de Precisión, CNC y Corte Láser",
+  title: "SIMET S.A.S",
   description:
     "Soluciones en metalmecánica de precisión, mecanizado CNC, corte láser y diseño industrial en Mosquera, Cundinamarca.",
 };
