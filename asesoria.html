@@ -41,6 +41,7 @@
       background-color: var(--white);
       line-height: 1.6;
       -webkit-font-smoothing: antialiased;
+      overflow-x: hidden;
     }
 
     .simet-container {
@@ -48,7 +49,8 @@
       margin: 0 auto;
       padding: 0 24px;
     }
-/* ============================================================
+
+    /* ============================================================
        HEADER & NAVEGACIÓN RESPONSIVE
        ============================================================ */
     .simet-navbar {
@@ -67,7 +69,6 @@
       height: 80px;
     }
 
-    /* Logo */
     .simet-logo-link {
       display: flex;
       align-items: center;
@@ -75,12 +76,11 @@
     }
 
     .simet-logo-img {
-      height: 52px;
+      height: 50px;
       width: auto;
       object-fit: contain;
     }
 
-    /* Menú Escritorio */
     .simet-nav-menu {
       display: flex;
       align-items: center;
@@ -105,7 +105,6 @@
       color: var(--primary-red);
     }
 
-    /* Flecha dropdown */
     .simet-arrow-icon {
       width: 14px;
       height: 14px;
@@ -113,7 +112,6 @@
       transition: transform 0.25s ease;
     }
 
-    /* Dropdown Servicios */
     .simet-dropdown {
       position: relative;
     }
@@ -122,7 +120,7 @@
       position: absolute;
       top: calc(100% + 12px);
       left: 0;
-      min-width: 270px;
+      min-width: 275px;
       background: var(--white);
       border-radius: var(--radius-md);
       box-shadow: var(--shadow-card);
@@ -162,7 +160,6 @@
       padding-left: 24px;
     }
 
-    /* Botón Contacto */
     .simet-btn-nav {
       background-color: var(--primary-red);
       color: var(--white);
@@ -184,7 +181,6 @@
       box-shadow: 0 6px 16px rgba(158, 28, 37, 0.3);
     }
 
-    /* Botón Hamburguesa Móvil */
     .simet-burger-btn {
       display: none;
       background: transparent;
@@ -201,186 +197,7 @@
     }
 
     /* ============================================================
-       FOOTER INDUSTRIAL
-       ============================================================ */
-    .simet-footer {
-      background-color: #122434;
-      color: #94a3b8;
-      padding-top: 65px;
-      border-top: 4px solid var(--primary-red);
-    }
-
-    .simet-footer-grid {
-      display: grid;
-      grid-template-columns: 1.4fr 1.1fr 0.9fr 1.1fr;
-      gap: 40px;
-      padding-bottom: 50px;
-      border-bottom: 1px solid rgba(255, 255, 255, 0.08);
-    }
-
-    .simet-footer-col h4 {
-      color: var(--white);
-      font-size: 1.1rem;
-      font-weight: 700;
-      margin-bottom: 20px;
-      position: relative;
-    }
-
-    .simet-footer-col h4::after {
-      content: '';
-      position: absolute;
-      left: 0;
-      bottom: -8px;
-      width: 32px;
-      height: 2px;
-      background-color: var(--primary-red);
-      border-radius: 2px;
-    }
-
-    .simet-footer-about p {
-      font-size: 0.93rem;
-      line-height: 1.65;
-      margin-bottom: 20px;
-      color: #cbd5e1;
-    }
-
-    .simet-footer-links {
-      list-style: none;
-    }
-
-    .simet-footer-links li {
-      margin-bottom: 11px;
-    }
-
-    .simet-footer-links a {
-      color: #94a3b8;
-      text-decoration: none;
-      font-size: 0.93rem;
-      transition: var(--transition);
-      display: inline-block;
-    }
-
-    .simet-footer-links a:hover {
-      color: var(--white);
-      transform: translateX(4px);
-    }
-
-    .simet-footer-contact li {
-      display: flex;
-      align-items: flex-start;
-      gap: 12px;
-      margin-bottom: 14px;
-      font-size: 0.93rem;
-      color: #cbd5e1;
-    }
-
-    .simet-footer-contact svg {
-      width: 18px;
-      height: 18px;
-      fill: var(--teal-banner, #66adb8);
-      flex-shrink: 0;
-      margin-top: 3px;
-    }
-
-    .simet-footer-bottom {
-      padding: 22px 0;
-      text-align: center;
-      font-size: 0.88rem;
-      color: #64748b;
-    }
-
-    /* ============================================================
-       RESPONSIVE (MÓVIL Y TABLET)
-       ============================================================ */
-    @media (max-width: 1040px) {
-      .simet-nav-menu {
-        gap: 12px;
-      }
-      .simet-nav-link {
-        font-size: 0.88rem;
-      }
-      .simet-btn-nav {
-        padding: 8px 18px;
-        font-size: 0.85rem;
-      }
-    }
-
-    @media (max-width: 900px) {
-      .simet-burger-btn {
-        display: block;
-      }
-
-      .simet-nav-menu {
-        position: fixed;
-        top: 80px;
-        left: 0;
-        width: 100%;
-        background-color: var(--white);
-        flex-direction: column;
-        align-items: flex-start;
-        padding: 24px;
-        gap: 0;
-        box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
-        display: none;
-        max-height: calc(100vh - 80px);
-        overflow-y: auto;
-      }
-
-      .simet-nav-menu.open {
-        display: flex;
-      }
-
-      .simet-nav-menu > li {
-        width: 100%;
-        border-bottom: 1px solid #f1f5f9;
-      }
-
-      .simet-nav-link {
-        width: 100%;
-        padding: 14px 0;
-        justify-content: space-between;
-        font-size: 1rem;
-      }
-
-      .simet-dropdown-menu {
-        position: static;
-        box-shadow: none;
-        border: none;
-        padding: 0 0 10px 16px;
-        opacity: 1;
-        visibility: visible;
-        transform: none;
-        display: none;
-        background: #f8fafc;
-        border-radius: var(--radius-sm);
-      }
-
-      .simet-dropdown.open .simet-dropdown-menu {
-        display: block;
-      }
-
-      .simet-btn-nav-wrap {
-        padding-top: 18px;
-        width: 100%;
-      }
-
-      .simet-btn-nav {
-        width: 100%;
-      }
-
-      .simet-footer-grid {
-        grid-template-columns: 1fr 1fr;
-        gap: 32px;
-      }
-    }
-
-    @media (max-width: 580px) {
-      .simet-footer-grid {
-        grid-template-columns: 1fr;
-      }
-    }
-    /* ============================================================
-       1. CABECERA / HERO
+       1. CABECERA HERO
        ============================================================ */
     .simet-hero {
       padding: 70px 0 50px;
@@ -622,16 +439,325 @@
     }
 
     /* ============================================================
-       RESPONSIVE DESIGN
+       5. NUEVO FOOTER RESPONSIVE (SIMET S.A.S.)
        ============================================================ */
-    @media (max-width: 1024px) {
+    .simet-footer-new {
+      width: 100%;
+      background: radial-gradient(
+          ellipse at 72% 60%,
+          rgba(30, 72, 100, 0.25) 0%,
+          rgba(5, 31, 50, 0) 42%
+        ),
+        linear-gradient(115deg, #041b2d 0%, #06263e 58%, #031724 100%);
+      color: #ffffff;
+      padding: 0;
+      margin: 0;
+      border-top: 3px solid #b20b12;
+    }
+
+    .simet-footer-new__inner {
+      width: 90%;
+      max-width: 1300px;
+      margin: 0 auto;
+      padding: 60px 0 45px;
+      display: grid;
+      grid-template-columns: 1.25fr 1.35fr 0.85fr 0.95fr;
+      column-gap: 50px;
+      row-gap: 35px;
+      align-items: start;
+    }
+
+    .simet-footer-new h3 {
+      margin: 0 0 22px 0;
+      font-size: 15px;
+      font-weight: 700;
+      color: #ffffff;
+      letter-spacing: 0.3px;
+    }
+
+    .simet-footer-new__logo-text {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      margin-bottom: 18px;
+    }
+
+    .simet-footer-new__logo-symbol {
+      width: 36px;
+      height: 36px;
+      flex: 0 0 36px;
+      border: 7px solid #b20b12;
+      border-right-color: #ffffff;
+      border-radius: 50%;
+      transform: rotate(-35deg);
+    }
+
+    .simet-footer-new__logo-name {
+      display: flex;
+      flex-direction: column;
+    }
+
+    .simet-footer-new__logo-name > div {
+      display: flex;
+      align-items: flex-end;
+      gap: 6px;
+    }
+
+    .simet-footer-new__logo-name strong {
+      font-size: 28px;
+      line-height: 0.9;
+      font-weight: 800;
+      color: #ffffff;
+      letter-spacing: -0.5px;
+    }
+
+    .simet-footer-new__logo-name small {
+      font-size: 11px;
+      font-weight: 700;
+      color: #ffffff;
+    }
+
+    .simet-footer-new__logo-name em {
+      margin-top: 5px;
+      font-size: 7.5px;
+      font-style: normal;
+      font-weight: 600;
+      letter-spacing: 0.8px;
+      color: #a9b6c0;
+    }
+
+    .simet-footer-new__description {
+      max-width: 280px;
+      font-size: 13px;
+      line-height: 1.6;
+      color: #aab7c0;
+    }
+
+    .simet-footer-new__contact-item {
+      display: grid;
+      grid-template-columns: 20px minmax(0, 1fr);
+      gap: 12px;
+      align-items: start;
+      margin-bottom: 14px;
+    }
+
+    .simet-footer-new__contact-icon {
+      width: 20px;
+      height: 20px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin-top: 2px;
+    }
+
+    .simet-footer-new__contact-icon svg {
+      width: 16px;
+      height: 16px;
+      fill: #cbd5e1;
+    }
+
+    .simet-footer-new__contact-item p {
+      font-size: 13px;
+      line-height: 1.5;
+      color: #aebac3;
+      margin: 0;
+    }
+
+    .simet-footer-new__contact-item a {
+      color: #aebac3;
+      text-decoration: none;
+      transition: color 0.2s ease;
+    }
+
+    .simet-footer-new__contact-item a:hover {
+      color: #ffffff;
+    }
+
+    .simet-footer-new__nav nav {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+
+    .simet-footer-new__nav nav a {
+      color: #aebac3;
+      font-size: 13px;
+      text-decoration: none;
+      transition: color 0.2s ease, transform 0.2s ease;
+      display: inline-block;
+    }
+
+    .simet-footer-new__nav nav a:hover {
+      color: #ffffff;
+      transform: translateX(4px);
+    }
+
+    .simet-footer-new__social-list {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .simet-footer-new__social-button {
+      width: 38px;
+      height: 38px;
+      border: 1px solid rgba(255, 255, 255, 0.25);
+      border-radius: 4px;
+      background: rgba(255, 255, 255, 0.04);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 15px;
+      font-weight: 700;
+      color: #ffffff;
+      text-decoration: none;
+      transition: background 0.25s ease, border-color 0.25s ease, transform 0.25s ease;
+    }
+
+    .simet-footer-new__social-button:hover {
+      background: #b20b12;
+      border-color: #b20b12;
+      color: #ffffff;
+      transform: translateY(-2px);
+    }
+
+    .simet-footer-new__instagram {
+      font-size: 20px;
+    }
+
+    .simet-footer-new__bottom {
+      width: 100%;
+      border-top: 1px solid rgba(255, 255, 255, 0.08);
+    }
+
+    .simet-footer-new__bottom-inner {
+      width: 90%;
+      max-width: 1300px;
+      min-height: 64px;
+      margin: 0 auto;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 20px;
+      padding: 16px 0;
+    }
+
+    .simet-footer-new__copyright {
+      font-size: 11.5px;
+      color: #82939f;
+      margin: 0;
+    }
+
+    .simet-footer-new__slogan {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+    }
+
+    .simet-footer-new__slogan span {
+      font-size: 10px;
+      font-weight: 600;
+      letter-spacing: 0.8px;
+      color: #81919c;
+    }
+
+    .simet-footer-new__slogan i {
+      width: 32px;
+      height: 2px;
+      background: #b20b12;
+      border-radius: 2px;
+      display: block;
+    }
+
+    /* ============================================================
+       RESPONSIVE DESIGN (GLOBAL)
+       ============================================================ */
+    @media (max-width: 1040px) {
+      .simet-nav-menu {
+        gap: 12px;
+      }
+      .simet-nav-link {
+        font-size: 0.88rem;
+      }
+      .simet-btn-nav {
+        padding: 8px 18px;
+        font-size: 0.85rem;
+      }
       .simet-grid-4 {
         grid-template-columns: repeat(2, 1fr);
         gap: 28px;
       }
+      .simet-footer-new__inner {
+        grid-template-columns: 1fr 1fr;
+        column-gap: 40px;
+        row-gap: 40px;
+        padding: 50px 0 35px;
+      }
     }
 
-    @media (max-width: 860px) {
+    @media (max-width: 900px) {
+      .simet-burger-btn {
+        display: block;
+      }
+
+      .simet-nav-menu {
+        position: fixed;
+        top: 80px;
+        left: 0;
+        width: 100%;
+        background-color: var(--white);
+        flex-direction: column;
+        align-items: flex-start;
+        padding: 24px;
+        gap: 0;
+        box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
+        display: none;
+        max-height: calc(100vh - 80px);
+        overflow-y: auto;
+      }
+
+      .simet-nav-menu.open {
+        display: flex;
+      }
+
+      .simet-nav-menu > li {
+        width: 100%;
+        border-bottom: 1px solid #f1f5f9;
+      }
+
+      .simet-nav-link {
+        width: 100%;
+        padding: 14px 0;
+        justify-content: space-between;
+        font-size: 1rem;
+      }
+
+      .simet-dropdown-menu {
+        position: static;
+        box-shadow: none;
+        border: none;
+        padding: 0 0 10px 16px;
+        opacity: 1;
+        visibility: visible;
+        transform: none;
+        display: none;
+        background: #f8fafc;
+        border-radius: var(--radius-sm);
+      }
+
+      .simet-dropdown.open .simet-dropdown-menu {
+        display: block;
+      }
+
+      .simet-btn-nav-wrap {
+        padding-top: 18px;
+        width: 100%;
+      }
+
+      .simet-btn-nav {
+        width: 100%;
+      }
+
       .simet-split-grid {
         grid-template-columns: 1fr;
         gap: 40px;
@@ -649,7 +775,7 @@
       }
     }
 
-    @media (max-width: 600px) {
+    @media (max-width: 650px) {
       .simet-grid-4 {
         grid-template-columns: 1fr;
         max-width: 420px;
@@ -668,49 +794,53 @@
         padding: 40px 20px;
         border-radius: var(--radius-md);
       }
+
+      .simet-footer-new__inner {
+        grid-template-columns: 1fr;
+        gap: 32px;
+        padding: 40px 0 30px;
+      }
+
+      .simet-footer-new__description {
+        max-width: 100%;
+      }
+
+      .simet-footer-new__bottom-inner {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 14px;
+        padding: 20px 0;
+      }
     }
   </style>
 </head>
 <body>
-<!-- ==========================================
+
+  <!-- ==========================================
        HEADER PRINCIPAL
        ========================================== -->
   <header class="simet-navbar">
     <div class="simet-container simet-nav-inner">
-      <!-- Logo SIMET S.A.S. -->
       <a href="index.html" class="simet-logo-link">
         <img src="logo.png" alt="SIMET S.A.S. Servicios Indumetalmecánicos" class="simet-logo-img">
       </a>
 
-      <!-- Botón Hamburguesa Móvil -->
       <button class="simet-burger-btn" id="burgerBtn" aria-label="Abrir Menú">
-        <svg viewBox="0 0 24 24">
-          <path d="M3 6h18v2H3V6m0 5h18v2H3v-2m0 5h18v2H3v-2Z"/>
-        </svg>
+        <svg viewBox="0 0 24 24"><path d="M3 6h18v2H3V6m0 5h18v2H3v-2m0 5h18v2H3v-2Z"/></svg>
       </button>
 
-      <!-- Menú de Navegación -->
       <ul class="simet-nav-menu" id="navMenu">
         <li><a href="index.html" class="simet-nav-link">Inicio</a></li>
         
-        <!-- Dropdown Servicios (Conecta con los 3 archivos) -->
         <li class="simet-dropdown">
-          <a href="#" class="simet-nav-link" id="serviciosToggle">
+          <a href="#" class="simet-nav-link active" id="serviciosToggle">
             Servicios
-            <svg class="simet-arrow-icon" viewBox="0 0 24 24">
-              <path d="M7.41 8.59 12 13.17l4.59-4.58L18 10l-6 6-6-6 1.41-1.41z"/>
-            </svg>
+            <svg class="simet-arrow-icon" viewBox="0 0 24 24"><path d="M7.41 8.59 12 13.17l4.59-4.58L18 10l-6 6-6-6 1.41-1.41z"/></svg>
           </a>
           <ul class="simet-dropdown-menu">
-            <li class="simet-dropdown-item">
-              <a href="ProyectosMetalmecanicos.html">Diseño de Proyectos Metalmecánicos</a>
-            </li>
-            <li class="simet-dropdown-item">
-              <a href="Modelado3D.html">Modelado 3D para Manufactura</a>
-            </li>
-            <li class="simet-dropdown-item">
-              <a href="asesoria.html">Asesoría Técnica en DFM y Costos</a>
-            </li>
+            <li class="simet-dropdown-item"><a href="ProyectosMetalmecanicos.html">Diseño de Proyectos Metalmecánicos</a></li>
+            <li class="simet-dropdown-item"><a href="Modelado3D.html">Modelado 3D para Manufactura</a></li>
+            <li class="simet-dropdown-item"><a href="asesoria.html">Asesoría Técnica en DFM y Costos</a></li>
           </ul>
         </li>
 
@@ -720,15 +850,15 @@
         <li><a href="#evidencias" class="simet-nav-link">Evidencias</a></li>
         <li><a href="#conocenos" class="simet-nav-link">Conócenos</a></li>
         
-        <!-- Botón Contacto -->
         <li class="simet-btn-nav-wrap">
           <a href="#contacto" class="simet-btn-nav">CONTACTO</a>
         </li>
       </ul>
     </div>
   </header>
+
   <!-- ==========================================
-       1. HERO / INTRODUCCIÓN
+       HERO
        ========================================== -->
   <header class="simet-hero">
     <div class="simet-container">
@@ -745,12 +875,11 @@
   </header>
 
   <!-- ==========================================
-       2. FABRICABILIDAD REAL (TEXTO + IMAGEN)
+       FABRICABILIDAD REAL (TEXTO + IMAGEN)
        ========================================== -->
   <section class="simet-split-section">
     <div class="simet-container">
       <div class="simet-split-grid">
-        <!-- Texto Descriptivo (Izquierda) -->
         <div class="simet-split-content">
           <h2>Fabricabilidad real: menos costos, cero retrabajos</h2>
           <p>
@@ -761,7 +890,6 @@
           </p>
         </div>
 
-        <!-- Imagen de Piezas Fabricadas (Derecha) -->
         <div class="simet-image-wrapper">
           <img src="https://images.unsplash.com/photo-1581092335397-9583fe92d232?auto=format&fit=crop&w=1000&q=80" 
                alt="Piezas mecanizadas de alta precisión optimizadas para manufactura" 
@@ -773,7 +901,7 @@
   </section>
 
   <!-- ==========================================
-       3. EJES DE OPTIMIZACIÓN Y ASESORÍA
+       EJES DE OPTIMIZACIÓN Y ASESORÍA
        ========================================== -->
   <section class="simet-features-section">
     <div class="simet-container">
@@ -782,49 +910,33 @@
       </div>
 
       <div class="simet-grid-4">
-        <!-- Eje 1 -->
         <div class="simet-card">
           <div class="simet-icon-box">
-            <!-- Icono Engranaje (GD&T / Tolerancias) -->
-            <svg viewBox="0 0 24 24">
-              <path d="M12 15.5A3.5 3.5 0 0 1 8.5 12 3.5 3.5 0 0 1 12 8.5a3.5 3.5 0 0 1 3.5 3.5 3.5 3.5 0 0 1-3.5 3.5m7.43-2.53c.04-.32.07-.64.07-.97 0-.33-.03-.66-.07-1l2.11-1.63c.19-.15.24-.42.12-.64l-2-3.46c-.12-.22-.39-.31-.61-.22l-2.49 1c-.52-.39-1.06-.73-1.69-.98l-.37-2.65A.506.506 0 0 0 14 2h-4c-.25 0-.46.18-.5.42l-.37 2.65c-.63.25-1.17.59-1.69.98l-2.49-1c-.22-.09-.49 0-.61.22l-2 3.46c-.13.22-.07.49.12.64L4.57 11c-.04.34-.07.67-.07 1 0 .33.03.65.07.97l-2.11 1.66c-.19.15-.25.42-.12.64l2 3.46c.12.22.39.3.61.22l2.49-1.01c.52.4 1.06.74 1.69.99l.37 2.65c.04.24.25.42.5.42h4c.25 0 .46-.18.5-.42l.37-2.65c.63-.26 1.17-.59 1.69-.99l2.49 1.01c.22.08.49 0 .61-.22l2-3.46c.12-.22.07-.49-.12-.64l-2.11-1.66Z"/>
-            </svg>
+            <svg viewBox="0 0 24 24"><path d="M12 15.5A3.5 3.5 0 0 1 8.5 12 3.5 3.5 0 0 1 12 8.5a3.5 3.5 0 0 1 3.5 3.5 3.5 3.5 0 0 1-3.5 3.5m7.43-2.53c.04-.32.07-.64.07-.97 0-.33-.03-.66-.07-1l2.11-1.63c.19-.15.24-.42.12-.64l-2-3.46c-.12-.22-.39-.31-.61-.22l-2.49 1c-.52-.39-1.06-.73-1.69-.98l-.37-2.65A.506.506 0 0 0 14 2h-4c-.25 0-.46.18-.5.42l-.37 2.65c-.63.25-1.17.59-1.69.98l-2.49-1c-.22-.09-.49 0-.61.22l-2 3.46c-.13.22-.07.49.12.64L4.57 11c-.04.34-.07.67-.07 1 0 .33.03.65.07.97l-2.11 1.66c-.19.15-.25.42-.12.64l2 3.46c.12.22.39.3.61.22l2.49-1.01c.52.4 1.06.74 1.69.99l.37 2.65c.04.24.25.42.5.42h4c.25 0 .46-.18.5-.42l.37-2.65c.63-.26 1.17-.59 1.69-.99l2.49 1.01c.22.08.49 0 .61-.22l2-3.46c.12-.22.07-.49-.12-.64l-2.11-1.66Z"/></svg>
           </div>
           <h3>Racionalización de Tolerancias (GD&T)</h3>
           <p>Ajuste entre tolerancias críticas de ensamble y tolerancias comerciales de taller, eliminando sobrecostos innecesarios en zonas no funcionales.</p>
         </div>
 
-        <!-- Eje 2 -->
         <div class="simet-card">
           <div class="simet-icon-box">
-            <!-- Icono Isométrico 3D (Optimización Geométrica) -->
-            <svg viewBox="0 0 24 24">
-              <path d="m12 2 9.5 5.5v11L12 24l-9.5-5.5v-11L12 2Zm0 2.311L4.85 8.442 12 12.574l7.15-4.132L12 4.311ZM3.85 10.14v7.719L11 21.99v-7.72L3.85 10.14Zm16.3 0-7.15 4.13v7.72l7.15-4.13v-7.72Z"/>
-            </svg>
+            <svg viewBox="0 0 24 24"><path d="m12 2 9.5 5.5v11L12 24l-9.5-5.5v-11L12 2Zm0 2.311L4.85 8.442 12 12.574l7.15-4.132L12 4.311ZM3.85 10.14v7.719L11 21.99v-7.72L3.85 10.14Zm16.3 0-7.15 4.13v7.72l7.15-4.13v-7.72Z"/></svg>
           </div>
           <h3>Optimización Geométrica CNC y Láser</h3>
           <p>Adecuación de radios internos para herramientas estándar, diseño de cavidades estables y espesores uniformes para evitar deformación térmica.</p>
         </div>
 
-        <!-- Eje 3 -->
         <div class="simet-card">
           <div class="simet-icon-box">
-            <!-- Icono Hoja Técnica (Materiales) -->
-            <svg viewBox="0 0 24 24">
-              <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8l-6-6Zm-1 2 5 5h-5V4ZM8 12h8v2H8v-2Zm0 4h8v2H8v-2Zm0-8h4v2H8V8Z"/>
-            </svg>
+            <svg viewBox="0 0 24 24"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8l-6-6Zm-1 2 5 5h-5V4ZM8 12h8v2H8v-2Zm0 4h8v2H8v-2Zm0-8h4v2H8V8Z"/></svg>
           </div>
           <h3>Selección Estratégica de Materiales</h3>
           <p>Sustitución de aleaciones importadas por aceros comerciales (1045, 4140, inoxidables 304/316) y polímeros técnicos (Nylon, POM/Delrin, PTFE).</p>
         </div>
 
-        <!-- Eje 4 -->
         <div class="simet-card">
           <div class="simet-icon-box">
-            <!-- Icono Monitor / Procesos (Ruta de Fabricación) -->
-            <svg viewBox="0 0 24 24">
-              <path d="M21 2H3c-1.1 0-2 .9-2 2v12c0 1.1.9 2 2 2h7v2H8v2h8v-2h-2v-2h7c1.1 0 2-.9 2-2V4c0-1.1-.9-2-2-2Zm0 14H3V4h18v12Z"/>
-            </svg>
+            <svg viewBox="0 0 24 24"><path d="M21 2H3c-1.1 0-2 .9-2 2v12c0 1.1.9 2 2 2h7v2H8v2h8v-2h-2v-2h7c1.1 0 2-.9 2-2V4c0-1.1-.9-2-2-2Zm0 14H3V4h18v12Z"/></svg>
           </div>
           <h3>Definición de Ruta de Fabricación</h3>
           <p>Determinación del proceso más económico según el lote: torneado, fresado multiejes, corte láser, conformado o ensambles soldados.</p>
@@ -833,45 +945,31 @@
 
       <div class="simet-divider"></div>
 
-      <!-- ==========================================
-           4. SECTORES INDUSTRIALES DE APLICACIÓN
-           ========================================== -->
+      <!-- SECTORES -->
       <div class="simet-section-header">
         <h2 class="simet-section-title">Sectores Industriales de Aplicación</h2>
       </div>
 
       <div class="simet-grid-3">
-        <!-- Sector 1 -->
         <div class="simet-card">
           <div class="simet-icon-box">
-            <!-- Icono Sanitario / Alimentos -->
-            <svg viewBox="0 0 24 24">
-              <path d="M19.35 10.04C18.67 6.59 15.64 4 12 4 9.11 4 6.6 5.64 5.35 8.04 2.34 8.36 0 10.91 0 14c0 3.31 2.69 6 6 6h13c2.76 0 5-2.24 5-5 0-2.64-2.05-4.78-4.65-4.96ZM12 18l-1.5-1.5L12 15l1.5 1.5L12 18Zm3-3-1.5-1.5L15 12l1.5 1.5L15 15Zm-6 0-1.5-1.5L9 12l1.5 1.5L9 15Z"/>
-            </svg>
+            <svg viewBox="0 0 24 24"><path d="M19.35 10.04C18.67 6.59 15.64 4 12 4 9.11 4 6.6 5.64 5.35 8.04 2.34 8.36 0 10.91 0 14c0 3.31 2.69 6 6 6h13c2.76 0 5-2.24 5-5 0-2.64-2.05-4.78-4.65-4.96ZM12 18l-1.5-1.5L12 15l1.5 1.5L12 18Zm3-3-1.5-1.5L15 12l1.5 1.5L15 15Zm-6 0-1.5-1.5L9 12l1.5 1.5L9 15Z"/></svg>
           </div>
           <h3>Alimentos y Bebidas</h3>
           <p>Selección de acabados superficiales sanitarios (Ra &le; 0.8 &micro;m) y aceros inoxidables certificados para normativas de inocuidad alimentaria.</p>
         </div>
 
-        <!-- Sector 2 -->
         <div class="simet-card">
           <div class="simet-icon-box">
-            <!-- Icono Caja / Moldes y Empaques -->
-            <svg viewBox="0 0 24 24">
-              <path d="m12 1.5 9 5.2v10.6l-9 5.2-9-5.2V6.7l9-5.2zm0 2.3L5.4 7.6 12 11.4l6.6-3.8L12 3.8zM4.5 9.2v7.7l6.5 3.8v-7.7L4.5 9.2zm15 0-6.5 3.8v7.7l6.5-3.8V9.2z"/>
-            </svg>
+            <svg viewBox="0 0 24 24"><path d="m12 1.5 9 5.2v10.6l-9 5.2-9-5.2V6.7l9-5.2zm0 2.3L5.4 7.6 12 11.4l6.6-3.8L12 3.8zM4.5 9.2v7.7l6.5 3.8v-7.7L4.5 9.2zm15 0-6.5 3.8v7.7l6.5-3.8V9.2z"/></svg>
           </div>
           <h3>Plásticos y Empaques</h3>
           <p>Optimización de canales de refrigeración y geometrías en moldes de termoformado y sellado para reducir tiempos de ciclo térmico.</p>
         </div>
 
-        <!-- Sector 3 -->
         <div class="simet-card">
           <div class="simet-icon-box">
-            <!-- Icono Automotriz -->
-            <svg viewBox="0 0 24 24">
-              <path d="M18.92 6.01C18.72 5.42 18.16 5 17.5 5h-11c-.66 0-1.21.42-1.42 1.01L3 12v8c0 .55.45 1 1 1h1c.55 0 1-.45 1-1v-1h12v1c0 .55.45 1 1 1h1c.55 0 1-.45 1-1v-8l-2.08-5.99zM6.5 16c-.83 0-1.5-.67-1.5-1.5S5.67 13 6.5 13s1.5.67 1.5 1.5S7.33 16 6.5 16zm11 0c-.83 0-1.5-.67-1.5-1.5s.67-1.5 1.5-1.5 1.5.67 1.5 1.5-.67 1.5-1.5 1.5zM5 11l1.5-4.5h11L19 11H5z"/>
-            </svg>
+            <svg viewBox="0 0 24 24"><path d="M18.92 6.01C18.72 5.42 18.16 5 17.5 5h-11c-.66 0-1.21.42-1.42 1.01L3 12v8c0 .55.45 1 1 1h1c.55 0 1-.45 1-1v-1h12v1c0 .55.45 1 1 1h1c.55 0 1-.45 1-1v-8l-2.08-5.99zM6.5 16c-.83 0-1.5-.67-1.5-1.5S5.67 13 6.5 13s1.5.67 1.5 1.5S7.33 16 6.5 16zm11 0c-.83 0-1.5-.67-1.5-1.5s.67-1.5 1.5-1.5 1.5.67 1.5 1.5-.67 1.5-1.5 1.5zM5 11l1.5-4.5h11L19 11H5z"/></svg>
           </div>
           <h3>Industria Automotriz</h3>
           <p>Asesoría en tratamientos térmicos (temple, cementación, nitruración) para piezas de ensamble sometidas a ciclos severos de fatiga mecánica.</p>
@@ -881,7 +979,7 @@
   </section>
 
   <!-- ==========================================
-       5. BANNER LLAMADO A LA ACCIÓN (NAVY CARD)
+       BANNER LLAMADO A LA ACCIÓN
        ========================================== -->
   <section class="simet-cta-container">
     <div class="simet-container">
@@ -893,57 +991,147 @@
   </section>
 
   <!-- ==========================================
-       JAVASCRIPT
+       NUEVO FOOTER RESPONSIVE
+       ========================================== -->
+  <footer class="simet-footer-new" id="contacto">
+    <div class="simet-footer-new__inner">
+
+      <div class="simet-footer-new__brand">
+        <div class="simet-footer-new__logo-text">
+          <span class="simet-footer-new__logo-symbol"></span>
+          <div class="simet-footer-new__logo-name">
+            <div>
+              <strong>SIMET</strong>
+              <small>S.A.S</small>
+            </div>
+            <em>METALMECÁNICA DE PRECISIÓN</em>
+          </div>
+        </div>
+
+        <p class="simet-footer-new__description">
+          Soluciones en metalmecánica para la industria, con precisión, calidad y compromiso.
+        </p>
+      </div>
+
+      <div class="simet-footer-new__column simet-footer-new__contact">
+        <h3>Contacto</h3>
+
+        <div class="simet-footer-new__contact-item">
+          <span class="simet-footer-new__contact-icon">
+            <svg viewBox="0 0 24 24"><path d="M12 2C8.7 2 6 4.7 6 8c0 4.7 6 12 6 12s6-7.3 6-12c0-3.3-2.7-6-6-6zm0 8.2A2.2 2.2 0 1 1 12 5.8a2.2 2.2 0 0 1 0 4.4z"/></svg>
+          </span>
+          <p>Carrera 3 # 16-58<br>Mosquera, Cundinamarca</p>
+        </div>
+
+        <div class="simet-footer-new__contact-item">
+          <span class="simet-footer-new__contact-icon">
+            <svg viewBox="0 0 24 24"><path d="M6.6 10.8a15.5 15.5 0 0 0 6.6 6.6l2.2-2.2c.3-.3.7-.4 1.1-.3 1.2.4 2.5.6 3.8.6.6 0 1 .4 1 1V20c0 .6-.4 1-1 1C10.8 21 3 13.2 3 3.7c0-.6.4-1 1-1h3.5c.6 0 1 .4 1 1 0 1.3.2 2.6.6 3.8.1.4 0 .8-.3 1.1l-2.2 2.2z"/></svg>
+          </span>
+          <p>
+            <a href="tel:+573173315892">(317) 331 5892</a>
+            <span>–</span>
+            <a href="tel:+573173315890">(317) 331 5890</a>
+          </p>
+        </div>
+
+        <div class="simet-footer-new__contact-item">
+          <span class="simet-footer-new__contact-icon">
+            <svg viewBox="0 0 24 24"><path d="M20 4H4c-1.1 0-1.99.9-1.99 2L2 18c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm0 4-8 5-8-5V6l8 5 8-5v2z"/></svg>
+          </span>
+          <p><a href="mailto:atencionalcliente@simet.com.co">atencionalcliente@simet.com.co</a></p>
+        </div>
+
+        <div class="simet-footer-new__contact-item">
+          <span class="simet-footer-new__contact-icon">
+            <svg viewBox="0 0 24 24"><path d="M12 2a10 10 0 1 0 0 20 10 10 0 0 0 0-20zm1 11h5v-2h-4V6h-2v7h1z"/></svg>
+          </span>
+          <p>Lun – Vie 7:00 a.m. – 5:00 p.m.</p>
+        </div>
+      </div>
+
+      <div class="simet-footer-new__column simet-footer-new__nav">
+        <h3>Navegación</h3>
+        <nav>
+          <a href="index.html">Inicio</a>
+          <a href="ProyectosMetalmecanicos.html">Proyectos Metalmecánicos</a>
+          <a href="Modelado3D.html">Modelado 3D CAD</a>
+          <a href="asesoria.html">Asesoría DFM & Costos</a>
+          <a href="#contacto">Contacto</a>
+        </nav>
+      </div>
+
+      <div class="simet-footer-new__column simet-footer-new__social">
+        <h3>Redes sociales</h3>
+        <div class="simet-footer-new__social-list">
+          <a href="#" class="simet-footer-new__social-button" aria-label="LinkedIn">in</a>
+          <a href="#" class="simet-footer-new__social-button" aria-label="Facebook">f</a>
+          <a href="#" class="simet-footer-new__social-button simet-footer-new__instagram" aria-label="Instagram">◎</a>
+          <a href="#" class="simet-footer-new__social-button simet-footer-new__youtube" aria-label="YouTube">▶</a>
+        </div>
+      </div>
+
+    </div>
+
+    <div class="simet-footer-new__bottom">
+      <div class="simet-footer-new__bottom-inner">
+        <p class="simet-footer-new__copyright">
+          &copy; 2026 SIMET S.A.S. — Todos los derechos reservados.
+        </p>
+
+        <div class="simet-footer-new__slogan">
+          <span>PRECISIÓN QUE IMPULSA LA INDUSTRIA</span>
+          <i></i>
+        </div>
+      </div>
+    </div>
+  </footer>
+
+  <!-- ==========================================
+       SCRIPTS
        ========================================== -->
   <script>
-    // ==========================================
-    // LOGICA DEL MENÚ MÓVIL Y DROPDOWN
-    // ==========================================
-    const burgerBtn = document.getElementById('burgerBtn');
-    const navMenu = document.getElementById('navMenu');
-    const serviciosToggle = document.getElementById('serviciosToggle');
-
-    if (burgerBtn && navMenu) {
-      burgerBtn.addEventListener('click', () => {
-        navMenu.classList.toggle('open');
-      });
-    }
-
-    // En pantallas táctiles o móviles, abre el submenú al tocar "Servicios"
-    if (serviciosToggle) {
-      serviciosToggle.addEventListener('click', (e) => {
-        if (window.innerWidth <= 900) {
-          e.preventDefault();
-          serviciosToggle.parentElement.classList.toggle('open');
-        }
-      });
-    }
-
-    // Cerrar menú al hacer click fuera en móvil
-    document.addEventListener('click', (e) => {
-      if (navMenu && burgerBtn) {
-        if (!navMenu.contains(e.target) && !burgerBtn.contains(e.target)) {
-          navMenu.classList.remove('open');
-        }
-      }
-    });
     document.addEventListener('DOMContentLoaded', () => {
+      // Control del menú hamburguesa en móvil
+      const burgerBtn = document.getElementById('burgerBtn');
+      const navMenu = document.getElementById('navMenu');
+      const serviciosToggle = document.getElementById('serviciosToggle');
+
+      if (burgerBtn && navMenu) {
+        burgerBtn.addEventListener('click', () => {
+          navMenu.classList.toggle('open');
+        });
+      }
+
+      // Control del desplegable Servicios en móvil
+      if (serviciosToggle) {
+        serviciosToggle.addEventListener('click', (e) => {
+          if (window.innerWidth <= 900) {
+            e.preventDefault();
+            serviciosToggle.parentElement.classList.toggle('open');
+          }
+        });
+      }
+
+      // Cierra el menú al presionar fuera
+      document.addEventListener('click', (e) => {
+        if (navMenu && burgerBtn) {
+          if (!navMenu.contains(e.target) && !burgerBtn.contains(e.target)) {
+            navMenu.classList.remove('open');
+          }
+        }
+      });
+
+      // Desplazamiento suave al presionar el botón de solicitud
       const btnRevision = document.getElementById('btnRevision');
       const bannerRevision = document.getElementById('bannerRevision');
 
       if (btnRevision && bannerRevision) {
         btnRevision.addEventListener('click', (e) => {
           e.preventDefault();
-          bannerRevision.scrollIntoView({ 
-            behavior: 'smooth', 
-            block: 'center' 
-          });
-
-          // Retroalimentación visual sutil
+          bannerRevision.scrollIntoView({ behavior: 'smooth', block: 'center' });
           bannerRevision.style.transition = 'transform 0.3s ease, box-shadow 0.3s ease';
           bannerRevision.style.transform = 'scale(1.02)';
           bannerRevision.style.boxShadow = '0 16px 36px rgba(24, 51, 75, 0.4)';
-          
           setTimeout(() => {
             bannerRevision.style.transform = 'scale(1)';
             bannerRevision.style.boxShadow = 'var(--shadow-md)';
@@ -952,74 +1140,5 @@
       }
     });
   </script>
-  <!-- ==========================================
-       FOOTER PRINCIPAL
-       ========================================== -->
-  <footer class="simet-footer" id="contacto">
-    <div class="simet-container">
-      <div class="simet-footer-grid">
-        
-        <!-- Columna 1: Info Corporativa -->
-        <div class="simet-footer-col simet-footer-about">
-          <h4>SIMET S.A.S.</h4>
-          <p>
-            Empresa especializada en servicios indumetalmecánicos, diseño de maquinaria, mecanizado CNC, corte láser e ingeniería de precisión para plantas de producción.
-          </p>
-        </div>
-
-        <!-- Columna 2: Servicios (Tus páginas conectadas) -->
-        <div class="simet-footer-col">
-          <h4>Servicios de Ingeniería</h4>
-          <ul class="simet-footer-links">
-            <li><a href="ProyectosMetalmecanicos.html">Proyectos Metalmecánicos</a></li>
-            <li><a href="Modelado3D.html">Modelado 3D & Mecanizado</a></li>
-            <li><a href="asesoria.html">Consultoría y Asesoría DFM</a></li>
-            <li><a href="#mecanizado">Mecanizado CNC Multiejes</a></li>
-            <li><a href="#corte-laser">Corte Láser de Alta Definición</a></li>
-          </ul>
-        </div>
-
-        <!-- Columna 3: Enlaces Rápidos -->
-        <div class="simet-footer-col">
-          <h4>Enlaces Rápidos</h4>
-          <ul class="simet-footer-links">
-            <li><a href="index.html">Inicio</a></li>
-            <li><a href="#productos">Productos</a></li>
-            <li><a href="#evidencias">Galería de Evidencias</a></li>
-            <li><a href="#conocenos">Sobre Nosotros</a></li>
-            <li><a href="#contacto">Solicitar Cotización</a></li>
-          </ul>
-        </div>
-
-        <!-- Columna 4: Contacto Técnico -->
-        <div class="simet-footer-col">
-          <h4>Contacto en Planta</h4>
-          <ul class="simet-footer-contact">
-            <li>
-              <!-- Icono Ubicación -->
-              <svg viewBox="0 0 24 24"><path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5a2.5 2.5 0 0 1 0-5 2.5 2.5 0 0 1 0 5z"/></svg>
-              <span>Zona Industrial, Colombia</span>
-            </li>
-            <li>
-              <!-- Icono Teléfono -->
-              <svg viewBox="0 0 24 24"><path d="M6.62 10.79c1.44 2.83 3.76 5.14 6.59 6.59l2.2-2.2c.27-.27.67-.36 1.02-.24 1.12.37 2.33.57 3.57.57.55 0 1 .45 1 1V20c0 .55-.45 1-1 1-9.39 0-17-7.61-17-17 0-.55.45-1 1-1h3.5c.55 0 1 .45 1 1 0 1.25.2 2.45.57 3.57.11.35.03.74-.25 1.02l-2.2 2.2z"/></svg>
-              <span>PBX / Móvil: +57 (300) 000-0000</span>
-            </li>
-            <li>
-              <!-- Icono Correo -->
-              <svg viewBox="0 0 24 24"><path d="M20 4H4c-1.1 0-1.99.9-1.99 2L2 18c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm0 4-8 5-8-5V6l8 5 8-5v2z"/></svg>
-              <span>contacto@simetsas.com</span>
-            </li>
-          </ul>
-        </div>
-
-      </div>
-
-      <!-- Barra de Copyright -->
-      <div class="simet-footer-bottom">
-        <p>&copy; 2026 SIMET S.A.S. - Empresa de Servicios Indumetalmecánicos. Todos los derechos reservados.</p>
-      </div>
-    </div>
-  </footer>
 </body>
 </html>
