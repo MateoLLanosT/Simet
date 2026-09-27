@@ -153,8 +153,52 @@
 }
 
 /* ------------------------------------------------------------
-   Engranajes de marca (eco de los piñones del logo)
+   Isotipo SIMET (piñones del logo)
+   Cada piñón gira sobre su propio centro en coordenadas del viewBox.
+   B tiene 8 dientes frente a 10 de A: gira 10/8 más rápido y al revés.
    ------------------------------------------------------------ */
+.simet-isotipo {
+  display: block;
+  --gear-period: 8s;
+}
+
+.simet-isotipo path {
+  transform-box: view-box;
+}
+
+.simet-isotipo__a {
+  transform-origin: 37px 37px;
+}
+
+.simet-isotipo__b {
+  transform-origin: 71px 71px;
+}
+
+.simet-isotipo--brand .simet-isotipo__a {
+  fill: var(--navy-title);
+}
+
+.simet-isotipo--brand .simet-isotipo__b,
+.simet-isotipo--light .simet-isotipo__b {
+  fill: var(--primary-red);
+}
+
+.simet-isotipo--light .simet-isotipo__a {
+  fill: #e2e8f0;
+}
+
+.simet-isotipo--mono path {
+  fill: currentColor;
+}
+
+.simet-isotipo--spin .simet-isotipo__a {
+  animation: simet-spin var(--gear-period) linear infinite;
+}
+
+.simet-isotipo--spin .simet-isotipo__b {
+  animation: simet-spin calc(var(--gear-period) * 0.8) linear infinite reverse;
+}
+
 .simet-gears {
   position: absolute;
   width: 380px;
@@ -165,25 +209,8 @@
   z-index: 0;
 }
 
-.simet-gears svg {
-  position: absolute;
-  fill: currentColor;
-}
-
-.simet-gears__a {
-  width: 260px;
-  height: 260px;
-  top: 0;
-  left: 0;
-  animation: simet-spin 48s linear infinite;
-}
-
-.simet-gears__b {
-  width: 170px;
-  height: 170px;
-  right: 0;
-  bottom: 0;
-  animation: simet-spin 32s linear infinite reverse;
+.simet-gears .simet-isotipo {
+  --gear-period: 60s;
 }
 
 /* ------------------------------------------------------------
@@ -202,7 +229,7 @@
   .simet-red-indicator,
   .simet-footer-slogan-line,
   .simet-home-hero__bg,
-  .simet-gears svg {
+  .simet-isotipo path {
     animation: none !important;
   }
 
