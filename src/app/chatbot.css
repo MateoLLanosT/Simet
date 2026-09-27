@@ -95,12 +95,16 @@
 }
 
 /* Onda roja que llama la atención mientras se muestra la invitación */
+/* Invisible fuera de la animación: al terminar no debe quedar un aro fijo sobre
+   el borde rojo. Queda por debajo del globito (z-index 0 frente a 1). */
 .simet-chat-launcher.is-calling::after {
   content: "";
   position: absolute;
   inset: -3px;
+  z-index: 0;
   border-radius: 50%;
   border: 2px solid var(--primary-red);
+  opacity: 0;
   animation: simet-chat-ping 1.8s var(--ease-out) 3;
   pointer-events: none;
 }
@@ -111,15 +115,17 @@
     opacity: 0.9;
   }
   to {
-    transform: scale(1.55);
+    transform: scale(1.45);
     opacity: 0;
   }
 }
 
 .simet-chat-badge {
   position: absolute;
-  top: -4px;
-  right: -4px;
+  z-index: 1;
+  top: -7px;
+  right: -7px;
+  box-shadow: 0 2px 6px rgba(8, 37, 60, 0.35);
   min-width: 22px;
   height: 22px;
   padding: 0 6px;
@@ -135,11 +141,12 @@
 }
 
 /* ---------- Invitación ---------- */
+/* Por encima del botón: el aro de llamada pasa por detrás del globo, no por encima */
 .simet-chat-teaser {
   position: fixed;
   right: max(var(--chat-gap), env(safe-area-inset-right));
-  bottom: calc(var(--chat-gap) + var(--chat-launcher) + 16px + env(safe-area-inset-bottom));
-  z-index: var(--chat-z);
+  bottom: calc(var(--chat-gap) + var(--chat-launcher) + 20px + env(safe-area-inset-bottom));
+  z-index: calc(var(--chat-z) + 1);
   display: flex;
   align-items: flex-start;
   max-width: min(290px, calc(100vw - 2 * var(--chat-gap)));
