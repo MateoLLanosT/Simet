@@ -75,7 +75,7 @@ export default function Modelado3DPage() {
         imageAlt: "Figura metálica diseñada en 3D y cortada con precisión por SIMET",
       }}
       features={{ heading: "Capacidades de Diseño e Ingeniería CAD", items: cadCapabilities }}
-      sectors={sectors}
+      secondary={{ items: sectors }}
       banner={{
         heading: "¿Tiene un plano o pieza que requiere modelado de precisión?",
         text: "Envíenos sus requerimientos técnicos o muestras físicas para una evaluación y levantamiento dimensional sin costo.",

@@ -76,7 +76,7 @@ export default function DisenoProyectosPage() {
         imageFirst: true,
       }}
       features={{ heading: "Capacidades de Desarrollo e Integración de Proyectos", items: capabilities }}
-      sectors={sectors}
+      secondary={{ items: sectors }}
       banner={{
         heading: "¿Tiene un desafío operativo o requiere maquinaria a medida?",
         text: "Cuéntenos su necesidad operativa en planta. Nuestros ingenieros evaluarán la viabilidad técnica y le presentarán una propuesta formal.",

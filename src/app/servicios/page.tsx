@@ -1,27 +1,6 @@
 import ServiceCard from "@/components/ServiceCard";
-import { images } from "@/lib/images";
+import { services } from "@/lib/services";
 import { stagger } from "@/lib/motion";
-
-const servicios = [
-  {
-    title: "Diseño de Proyectos Metalmecánicos",
-    description: "Ingeniería, planificación y desarrollo de soluciones industriales a medida.",
-    image: images.proyectos,
-    link: "/servicios/diseno-proyectos",
-  },
-  {
-    title: "Modelado 3D para Manufactura",
-    description: "Modelado paramétrico y desarrollo visual para fabricación de piezas industriales.",
-    image: images.modelado3d,
-    link: "/servicios/modelado-3d",
-  },
-  {
-    title: "Asesoría Técnica en DFM y Costos",
-    description: "Acompañamiento técnico desde el diseño hasta la entrega final.",
-    image: images.asesoria,
-    link: "/servicios/asesoria-dfm",
-  },
-];
 
 export default function ServiciosPage() {
   return (
@@ -44,8 +23,16 @@ export default function ServiciosPage() {
 
       <section style={{ padding: "0 0 80px" }}>
         <div className="simet-container simet-container--narrow simet-servicios-grid">
-          {servicios.map((s, i) => (
-            <ServiceCard key={s.link} index={i} sizes="(max-width: 900px) 100vw, 33vw" {...s} />
+          {services.map((s, i) => (
+            <ServiceCard
+              key={s.href}
+              index={i}
+              image={s.image}
+              title={s.name}
+              description={s.summary}
+              link={s.href}
+              sizes="(max-width: 900px) 100vw, 33vw"
+            />
           ))}
         </div>
       </section>

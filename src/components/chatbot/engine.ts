@@ -6,13 +6,14 @@ export interface ChatContext {
 }
 
 // Estas intenciones ganan aunque el mensaje mencione además un servicio:
-// "¿cuánto cuesta el corte láser?" es una cotización de corte láser.
-const PRIORITY = ["asesor", "cotizacion"];
+// "¿cuánto cuesta el corte láser?" es una cotización de corte láser, y
+// "¿qué espesor de inoxidable cortan?" pide la tabla de espesores, no materiales.
+const PRIORITY = ["asesor", "cotizacion", "espesores"];
 
 export function normalize(text: string) {
   return text
     .normalize("NFD")
-    .replace(/[̀-ͯ]/g, "")
+    .replace(/[\u0300-\u036f]/g, "")
     .toLowerCase()
     .replace(/[^a-z0-9]+/g, " ")
     .trim();

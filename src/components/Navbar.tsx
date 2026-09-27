@@ -4,15 +4,10 @@ import { useEffect, useState } from "react";
 import Link from "next/link";
 import Image from "next/image";
 import { usePathname } from "next/navigation";
+import { services } from "@/lib/services";
 
 // En táctil el tap dispara mouseenter y click a la vez; ahí manda solo el click
 const canHover = () => window.matchMedia("(hover: hover) and (min-width: 901px)").matches;
-
-const servicios = [
-  { href: "/servicios/diseno-proyectos", label: "Diseño de Proyectos Metalmecánicos" },
-  { href: "/servicios/modelado-3d", label: "Modelado 3D para Manufactura" },
-  { href: "/servicios/asesoria-dfm", label: "Asesoría Técnica en DFM y Costos" },
-];
 
 export default function Navbar() {
   const pathname = usePathname();
@@ -95,14 +90,14 @@ export default function Navbar() {
               </svg>
             </button>
             <ul className="simet-dropdown-menu">
-              {servicios.map((item) => (
+              {services.map((item) => (
                 <li key={item.href}>
                   <Link
                     href={item.href}
                     className={pathname === item.href ? "active" : ""}
                     onClick={closeAll}
                   >
-                    {item.label}
+                    {item.name}
                   </Link>
                 </li>
               ))}

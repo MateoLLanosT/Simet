@@ -77,7 +77,7 @@ export default function AsesoriaDfmPage() {
         imageAlt: "Ingenieros de SIMET revisando planos técnicos junto a piezas mecanizadas",
       }}
       features={{ heading: "Ejes de Optimización y Asesoría en Manufactura", items: optimizationAxes }}
-      sectors={sectors}
+      secondary={{ items: sectors }}
       banner={{
         heading: "¿Desea optimizar los costos de sus planos o piezas actuales?",
         text: "Envíenos sus requerimientos técnicos o planos preliminares para una revisión de fabricabilidad sin costo ni compromiso.",

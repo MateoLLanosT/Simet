@@ -12,7 +12,7 @@ export const SIMET = {
   mapa: "https://www.google.com/maps/search/?api=1&query=Carrera+3+%2316-58+Mosquera+Cundinamarca",
   horario: "Lunes a viernes, 8:00 a.m. – 5:00 p.m.",
   respuesta: "menos de 24 horas hábiles",
-  formatos: "PDF, DWG, STEP o STL (máx. 20 MB)",
+  formatos: "PDF, DWG, DXF, STEP o STL (máx. 20 MB)",
 };
 
 export type TopicId = "cnc" | "laser" | "modelado3d" | "proyectos" | "asesoria" | "productos";
@@ -100,22 +100,30 @@ export const INTENTS: Intent[] = [
   {
     id: "cnc",
     topic: "cnc",
-    keywords: ["cnc", "mecaniz", "maquinad", "torno", "tornead", "fresa", "fresad", "pieza", "repuesto", "reparacion", "mantenimiento"],
+    keywords: ["cnc", "mecaniz", "maquinad", "torno", "tornead", "fresa", "fresad", "pieza", "repuesto", "reparacion", "mantenimiento", "rectific", "mandrin", "buje"],
     reply: () =>
-      serviceReply("cnc", [
-        "Nuestro **Centro de Fabricación y Diseño CNC** hace mecanizado de precisión, fabricación de piezas especiales, diseño industrial, torno, fresa y reparación de maquinaria.",
-        "Si tienes un plano o una muestra física, podemos fabricarla o reconstruirla.",
-      ]),
+      serviceReply(
+        "cnc",
+        [
+          "Nuestro **Centro de Mecanizado, Torno y Fresado CNC** fabrica piezas de alta complejidad dimensional con tolerancias de **±0.01 mm**: fresado en 3 y 4 ejes, torneado CNC y convencional, repuestos especiales a partir de muestra física, y recuperación y rectificado de conjuntos mecánicos.",
+          "Trabajamos series cortas, medianas y de producción continua. Si tienes un plano o una muestra física, podemos fabricarla o reconstruirla.",
+        ],
+        "/servicios/mecanizado-cnc"
+      ),
   },
   {
     id: "laser",
     topic: "laser",
-    keywords: ["laser", "corte", "cortar", "lamina", "chapa"],
+    keywords: ["laser", "corte", "cortar", "lamina", "chapa", "fibra", "nesting", "celosia"],
     reply: () =>
-      serviceReply("laser", [
-        "Ofrecemos **corte láser de alta precisión** para proyectos industriales, arquitectónicos, publicitarios y decorativos.",
-        "También fabricamos productos personalizados cortados con láser: llaveros, piezas decorativas, figuras y paneles.",
-      ]),
+      serviceReply(
+        "laser",
+        [
+          "Cortamos lámina metálica con **fibra láser CNC**: bordes limpios sin rebaba, ranurados exactos y precisión de **±0.05 mm**, para proyectos industriales, arquitectónicos, publicitarios y decorativos.",
+          "Procesamos planos en DXF, DWG o STEP con anidado (nesting) para reducir el costo por pieza, desde una sola unidad hasta lotes de miles.",
+        ],
+        "/servicios/corte-laser"
+      ),
   },
   {
     id: "modelado3d",
@@ -196,20 +204,34 @@ export const INTENTS: Intent[] = [
   },
   {
     id: "materiales",
-    keywords: ["material", "acero", "inoxidable", "aluminio", "metal$", "metales$", "nylon", "delrin", "ptfe", "polimero"],
+    keywords: ["material", "acero", "inoxidable", "aluminio", "metal$", "metales$", "nylon", "delrin", "ptfe", "teflon", "polimero", "bronce", "laton", "uhmw"],
     reply: (topic) => ({
       topic,
       text: [
-        "En nuestros proyectos trabajamos con aceros comerciales como **1045 y 4140**, inoxidables **AISI 304/316** y polímeros técnicos como **Nylon, POM (Delrin) y PTFE**.",
-        "Para confirmar un material o espesor específico, cuéntanos tu requerimiento.",
+        "En mecanizado CNC trabajamos aceros al carbono y bonificados (**1020, 1045, 4140, 8620**), inoxidables (**AISI 304, 316L, 410, 420**), polímeros técnicos (**Nylon 6, POM/Delrin, PTFE, UHMW-PE**) y no ferrosos (**aluminio 6000/7000, bronce y latón**).",
+        "En corte láser cortamos acero al carbono, acero inoxidable y aluminio.",
       ],
-      actions: [cotizarAction],
-      suggestions: ["Asesoría DFM", "Hablar con un asesor"],
+      actions: [{ label: "Ver mecanizado CNC", href: "/servicios/mecanizado-cnc", kind: "secondary" }, cotizarAction],
+      suggestions: ["Espesores de corte láser", "Asesoría DFM", "Hablar con un asesor"],
+    }),
+  },
+  {
+    id: "espesores",
+    topic: "laser",
+    keywords: ["espesor", "calibre", "grosor", "milimetro", "tamano de lamina", "formato de lamina"],
+    reply: () => ({
+      topic: "laser",
+      text: [
+        "Estas son nuestras capacidades de **corte láser**:",
+        "• Acero al carbono (HR / CR): **hasta 16 mm**\n• Acero inoxidable 304 / 316: **hasta 10 mm**\n• Aluminio: **hasta 6 mm**\n• Láminas de hasta **1500 x 3000 mm**",
+      ],
+      actions: [{ label: "Ver corte láser", href: "/servicios/corte-laser", kind: "secondary" }, cotizarAction],
+      suggestions: ["Formatos de archivo", "Materiales", "Hablar con un asesor"],
     }),
   },
   {
     id: "archivos",
-    keywords: ["archivo", "adjunt", "plano", "dwg", "step", "stl", "pdf", "formato", "enviar diseno"],
+    keywords: ["archivo", "adjunt", "plano", "dwg", "dxf", "step", "stl", "pdf", "formato", "enviar diseno"],
     reply: (topic) => ({
       topic,
       text: [

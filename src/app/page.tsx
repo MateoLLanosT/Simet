@@ -10,13 +10,13 @@ const services = [
     image: images.cnc,
     title: "Centro de Fabricación y Diseño CNC",
     description: "Mecanizado de precisión, fabricación de piezas especiales, diseño industrial, torno, fresa y reparación de maquinaria.",
-    link: "/servicios/modelado-3d",
+    link: "/servicios/mecanizado-cnc",
   },
   {
     image: images.laser,
     title: "Corte Láser de Alta Precisión",
     description: "Corte de alta precisión para proyectos industriales, arquitectónicos, publicitarios y decorativos.",
-    link: "/contacto",
+    link: "/servicios/corte-laser",
   },
   {
     image: images.modelado3d,

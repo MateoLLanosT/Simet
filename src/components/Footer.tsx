@@ -1,12 +1,11 @@
 import Image from "next/image";
 import Link from "next/link";
 import { stagger } from "@/lib/motion";
+import { services } from "@/lib/services";
 
 const footerNav = [
   { href: "/", label: "Inicio" },
-  { href: "/servicios/diseno-proyectos", label: "Proyectos Metalmecánicos" },
-  { href: "/servicios/modelado-3d", label: "Modelado 3D CAD" },
-  { href: "/servicios/asesoria-dfm", label: "Asesoría DFM & Costos" },
+  ...services.map((s) => ({ href: s.href, label: s.shortName })),
   { href: "/contacto", label: "Contacto" },
 ];
 

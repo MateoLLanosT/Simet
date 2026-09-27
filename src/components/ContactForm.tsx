@@ -159,10 +159,10 @@ export default function ContactForm() {
                 >
                   <div className="icono-subir">&#8593;</div>
                   <p>Arrastre su archivo aquí o <button type="button" className="enlace">seleccione desde su equipo</button></p>
-                  <small>PDF, DWG, STEP, STL - máx. 20 MB</small>
+                  <small>PDF, DWG, DXF, STEP, STL - máx. 20 MB</small>
                   {archivo && <div className="nombre-archivo">Archivo seleccionado: {archivo.name}</div>}
                 </div>
-                <input ref={fileInputRef} type="file" accept=".pdf,.dwg,.step,.stl" onChange={handleFileChange} hidden />
+                <input ref={fileInputRef} type="file" accept=".pdf,.dwg,.dxf,.step,.stl" onChange={handleFileChange} hidden />
               </div>
               <button type="submit" disabled={enviando} className="simet-btn-red">
                 {enviando ? "Enviando..." : "Enviar solicitud"}
