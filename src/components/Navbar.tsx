@@ -1,197 +1,105 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import Link from "next/link";
 import Image from "next/image";
+import { usePathname } from "next/navigation";
+import { services } from "@/lib/services";
 
-const navLinks = [
-  { href: "/", label: "Inicio" },
-  {
-    label: "Servicios",
-    children: [
-      { href: "/servicios/mecanizado-cnc", label: "Centro de Mecanizado y Torno CNC" },
-      { href: "/servicios/corte-laser", label: "Corte Láser de Alta Precisión" },
-      { href: "/servicios/diseno-proyectos", label: "Diseño de Proyectos Metalmecánicos" },
-      { href: "/servicios/modelado-3d", label: "Modelado 3D para Manufactura" },
-      { href: "/servicios/asesoria-dfm", label: "Asesoría Técnica en DFM y Costos" },
-    ],
-  },
-  { href: "/#productos", label: "Productos" },
-  { href: "/#conocenos", label: "Conócenos" },
-];
+// En táctil el tap dispara mouseenter y click a la vez; ahí manda solo el click
+const canHover = () => window.matchMedia("(hover: hover) and (min-width: 901px)").matches;
 
 export default function Navbar() {
+  const pathname = usePathname();
   const [menuOpen, setMenuOpen] = useState(false);
   const [dropdownOpen, setDropdownOpen] = useState(false);
+  const [scrolled, setScrolled] = useState(false);
+
+  useEffect(() => {
+    const onScroll = () => setScrolled(window.scrollY > 8);
+    window.addEventListener("scroll", onScroll, { passive: true });
+    return () => window.removeEventListener("scroll", onScroll);
+  }, []);
+
+  useEffect(() => {
+    const onKey = (e: KeyboardEvent) => {
+      if (e.key !== "Escape") return;
+      setMenuOpen(false);
+      setDropdownOpen(false);
+    };
+    window.addEventListener("keydown", onKey);
+    return () => window.removeEventListener("keydown", onKey);
+  }, []);
+
+  const closeAll = () => {
+    setMenuOpen(false);
+    setDropdownOpen(false);
+  };
+
+  const inServicios = pathname.startsWith("/servicios");
 
   return (
-    <header
-      style={{
-        background: "rgba(255, 255, 255, 0.82)",
-        backdropFilter: "blur(16px)",
-        WebkitBackdropFilter: "blur(16px)",
-        borderBottom: "1px solid rgba(226, 232, 240, 0.8)",
-        position: "sticky",
-        top: 0,
-        zIndex: 1000,
-        boxShadow: "0 4px 20px -2px rgba(15, 23, 42, 0.04)",
-      }}
-    >
-      <div
-        style={{
-          maxWidth: 1240,
-          margin: "0 auto",
-          padding: "0 24px",
-          display: "flex",
-          alignItems: "center",
-          justifyContent: "space-between",
-          height: 80,
-        }}
-      >
-        {/* LOGO */}
-        <Link href="/" style={{ display: "flex", alignItems: "center" }}>
+    <header className={`simet-navbar ${scrolled ? "is-scrolled" : ""}`}>
+      <div className="simet-container simet-nav-inner">
+        <Link href="/" className="simet-logo-link" onClick={closeAll}>
           <Image
-            src="/legacy/Logo-simet-.png"
-            alt="SIMET S.A.S."
-            width={160}
-            height={50}
-            priority
-            style={{ width: "auto", height: 46 }}
+            src="/brand/logo-simet.png"
+            alt="SIMET S.A.S. Servicios Indumetalmecánicos"
+            width={600}
+            height={222}
+            className="simet-logo-img"
+            preload
           />
         </Link>
 
         {/* BOTÓN HAMBURGUESA MÓVIL */}
         <button
-          onClick={() => setMenuOpen(!menuOpen)}
-          aria-label="Abrir Menú"
-          style={{
-            display: "none",
-            background: "rgba(241, 245, 249, 0.8)",
-            border: "1px solid #cbd5e1",
-            borderRadius: "8px",
-            cursor: "pointer",
-            padding: "8px",
-            color: "var(--navy-icons)",
-          }}
-          className="simet-burger"
+          type="button"
+          className="simet-burger-btn"
+          aria-label={menuOpen ? "Cerrar menú" : "Abrir menú"}
+          aria-expanded={menuOpen}
+          aria-controls="simet-nav-menu"
+          onClick={() => setMenuOpen((open) => !open)}
         >
-          <svg width={26} height={26} viewBox="0 0 24 24" fill="currentColor">
-            <path d="M3 6h18v2H3V6m0 5h18v2H3v-2m0 5h18v2H3v-2Z" />
-          </svg>
+          <span />
+          <span />
+          <span />
         </button>
 
-        {/* MENÚ DE NAVEGACIÓN */}
-        <ul
-          style={{
-            display: "flex",
-            alignItems: "center",
-            listStyle: "none",
-            gap: 14,
-          }}
-          className={`simet-nav-menu ${menuOpen ? "open" : ""}`}
-        >
+        <ul id="simet-nav-menu" className={`simet-nav-menu ${menuOpen ? "open" : ""}`}>
           <li>
-            <Link
-              href="/"
-              onClick={() => setMenuOpen(false)}
-              style={{
-                textDecoration: "none",
-                color: "var(--text-main)",
-                fontWeight: 600,
-                fontSize: "0.92rem",
-                padding: "8px 12px",
-                borderRadius: "8px",
-                transition: "var(--transition)",
-                display: "block",
-              }}
-              className="simet-nav-item"
-            >
+            <Link href="/" className={`simet-nav-link ${pathname === "/" ? "active" : ""}`} onClick={closeAll}>
               Inicio
             </Link>
           </li>
 
           {/* DESPLEGABLE CON LOS 5 SERVICIOS */}
           <li
-            className="simet-dropdown"
-            onMouseEnter={() => setDropdownOpen(true)}
-            onMouseLeave={() => setDropdownOpen(false)}
-            style={{ position: "relative" }}
+            className={`simet-dropdown ${dropdownOpen ? "open" : ""}`}
+            onMouseEnter={() => canHover() && setDropdownOpen(true)}
+            onMouseLeave={() => canHover() && setDropdownOpen(false)}
           >
-            <span
-              onClick={() => setDropdownOpen(!dropdownOpen)}
-              style={{
-                color: "var(--text-main)",
-                fontWeight: 600,
-                fontSize: "0.92rem",
-                padding: "8px 12px",
-                borderRadius: "8px",
-                display: "flex",
-                alignItems: "center",
-                gap: 6,
-                cursor: "pointer",
-                transition: "var(--transition)",
-              }}
-              className="simet-nav-item"
+            <button
+              type="button"
+              className={`simet-nav-link ${inServicios ? "active" : ""}`}
+              aria-expanded={dropdownOpen}
+              aria-haspopup="true"
+              onClick={() => setDropdownOpen((open) => !open)}
             >
               Servicios
-              <svg
-                width={14}
-                height={14}
-                viewBox="0 0 24 24"
-                fill="currentColor"
-                style={{
-                  transition: "transform 0.25s ease",
-                  transform: dropdownOpen ? "rotate(180deg)" : "rotate(0)",
-                }}
-              >
+              <svg className="simet-arrow-icon" viewBox="0 0 24 24" aria-hidden="true">
                 <path d="M7.41 8.59 12 13.17l4.59-4.58L18 10l-6 6-6-6 1.41-1.41z" />
               </svg>
-            </span>
-
-            {/* MENÚ FLOTANTE GLASS */}
-            <ul
-              style={{
-                position: "absolute",
-                top: "calc(100% + 10px)",
-                left: 0,
-                minWidth: 310,
-                background: "rgba(255, 255, 255, 0.94)",
-                backdropFilter: "blur(20px)",
-                WebkitBackdropFilter: "blur(20px)",
-                borderRadius: "var(--radius-md)",
-                boxShadow: "0 20px 40px -10px rgba(15, 23, 42, 0.12), 0 0 0 1px rgba(255, 255, 255, 0.8) inset",
-                border: "1px solid rgba(226, 232, 240, 0.85)",
-                padding: "8px",
-                listStyle: "none",
-                opacity: dropdownOpen ? 1 : 0,
-                visibility: dropdownOpen ? "visible" : "hidden",
-                transform: dropdownOpen ? "translateY(0)" : "translateY(8px)",
-                transition: "var(--transition)",
-                zIndex: 100,
-              }}
-              className="simet-dropdown-list"
-            >
-              {navLinks[1].children?.map((child) => (
-                <li key={child.href} style={{ listStyle: "none" }}>
+            </button>
+            <ul className="simet-dropdown-menu">
+              {services.map((item) => (
+                <li key={item.href}>
                   <Link
-                    href={child.href}
-                    onClick={() => {
-                      setDropdownOpen(false);
-                      setMenuOpen(false);
-                    }}
-                    style={{
-                      display: "block",
-                      padding: "11px 16px",
-                      color: "#334155",
-                      textDecoration: "none",
-                      fontSize: "0.89rem",
-                      fontWeight: 600,
-                      borderRadius: "8px",
-                      transition: "var(--transition)",
-                    }}
-                    className="simet-sublink"
+                    href={item.href}
+                    className={pathname === item.href ? "active" : ""}
+                    onClick={closeAll}
                   >
-                    {child.label}
+                    {item.name}
                   </Link>
                 </li>
               ))}
@@ -199,113 +107,24 @@ export default function Navbar() {
           </li>
 
           <li>
-            <a
-              href="/#productos"
-              onClick={() => setMenuOpen(false)}
-              style={{
-                color: "var(--text-main)",
-                fontWeight: 600,
-                fontSize: "0.92rem",
-                padding: "8px 12px",
-                borderRadius: "8px",
-                transition: "var(--transition)",
-                display: "block",
-              }}
-              className="simet-nav-item"
-            >
+            <Link href="/#productos" className="simet-nav-link" onClick={closeAll}>
               Productos
-            </a>
+            </Link>
           </li>
 
           <li>
-            <a
-              href="/#conocenos"
-              onClick={() => setMenuOpen(false)}
-              style={{
-                color: "var(--text-main)",
-                fontWeight: 600,
-                fontSize: "0.92rem",
-                padding: "8px 12px",
-                borderRadius: "8px",
-                transition: "var(--transition)",
-                display: "block",
-              }}
-              className="simet-nav-item"
-            >
+            <Link href="/#conocenos" className="simet-nav-link" onClick={closeAll}>
               Conócenos
-            </a>
+            </Link>
           </li>
 
-          <li style={{ marginLeft: 6 }}>
-            <a
-              href="/#contacto"
-              onClick={() => setMenuOpen(false)}
-              style={{
-                background: "linear-gradient(135deg, var(--primary-red) 0%, #7d141b 100%)",
-                color: "var(--white)",
-                padding: "11px 24px",
-                borderRadius: "100px",
-                textDecoration: "none",
-                fontWeight: 700,
-                fontSize: "0.86rem",
-                letterSpacing: "0.6px",
-                transition: "var(--transition)",
-                display: "inline-flex",
-                alignItems: "center",
-                justifyContent: "center",
-                boxShadow: "0 8px 18px -4px rgba(158, 28, 37, 0.4), inset 0 1px 1px rgba(255, 255, 255, 0.35)",
-                border: "1px solid rgba(255, 255, 255, 0.2)",
-              }}
-              className="hover-lift"
-            >
+          <li className="simet-btn-nav-wrap">
+            <Link href="/contacto" className="simet-btn-nav" onClick={closeAll}>
               CONTACTO
-            </a>
+            </Link>
           </li>
         </ul>
       </div>
-
-      <style>{`
-        .simet-nav-item:hover {
-          color: var(--primary-red) !important;
-          background: rgba(158, 28, 37, 0.06);
-        }
-        .simet-sublink:hover {
-          background: rgba(158, 28, 37, 0.08) !important;
-          color: var(--primary-red) !important;
-          transform: translateX(4px);
-        }
-
-        @media (max-width: 900px) {
-          .simet-burger { display: block !important; }
-          .simet-nav-menu {
-            position: fixed !important;
-            top: 80px !important;
-            left: 0 !important;
-            width: 100% !important;
-            background: rgba(255, 255, 255, 0.98) !important;
-            backdrop-filter: blur(20px) !important;
-            flex-direction: column !important;
-            align-items: flex-start !important;
-            padding: 24px !important;
-            gap: 0 !important;
-            box-shadow: 0 15px 30px rgba(0,0,0,0.12) !important;
-            display: none !important;
-            max-height: calc(100vh - 80px) !important;
-            overflow-y: auto !important;
-            border-bottom: 1px solid #cbd5e1;
-          }
-          .simet-nav-menu.open { display: flex !important; }
-          .simet-nav-menu > li { width: 100%; border-bottom: 1px solid rgba(241, 245, 249, 0.9); }
-          .simet-dropdown-list {
-            position: static !important;
-            box-shadow: none !important;
-            border: none !important;
-            padding: 4px 0 8px 12px !important;
-            background: #f8fafc !important;
-            transform: none !important;
-          }
-        }
-      `}</style>
     </header>
   );
 }

@@ -1,60 +1,35 @@
 import Image from "next/image";
 import Link from "next/link";
+import { stagger } from "@/lib/motion";
+import { services } from "@/lib/services";
 
 const footerNav = [
   { href: "/", label: "Inicio" },
-  { href: "/servicios/diseno-proyectos", label: "Proyectos Metalmecánicos" },
-  { href: "/servicios/modelado-3d", label: "Modelado 3D CAD" },
-  { href: "/servicios/asesoria-dfm", label: "Asesoría DFM & Costos" },
-  { href: "/#contacto", label: "Contacto" },
+  ...services.map((s) => ({ href: s.href, label: s.shortName })),
+  { href: "/contacto", label: "Contacto" },
 ];
 
 export default function Footer() {
   return (
-    <footer
-      id="contacto"
-      style={{
-        width: "100%",
-        background:
-          "radial-gradient(ellipse at 72% 60%, rgba(30,72,100,0.25) 0%, rgba(5,31,50,0) 42%), linear-gradient(115deg, #041b2d 0%, #06263e 58%, #031724 100%)",
-        color: "#ffffff",
-        borderTop: "3px solid #b20b12",
-      }}
-    >
-      <div
-        style={{
-          width: "90%",
-          maxWidth: 1300,
-          margin: "0 auto",
-          padding: "60px 0 45px",
-          display: "grid",
-          gridTemplateColumns: "1.25fr 1.35fr 0.85fr 0.95fr",
-          columnGap: 50,
-          rowGap: 35,
-          alignItems: "start",
-        }}
-        className="simet-footer-grid"
-      >
+    <footer id="contacto" className="simet-footer">
+      <div className="simet-footer__inner">
         {/* Marca */}
-        <div>
-          <div style={{ marginBottom: 18 }}>
-            <Image
-              src="/legacy/cropped-Logo-simet-.png"
-              alt="SIMET S.A.S."
-              width={160}
-              height={52}
-            />
-          </div>
-          <p style={{ maxWidth: 280, fontSize: 13, lineHeight: 1.6, color: "#aab7c0" }}>
+        <div data-reveal style={stagger(0)}>
+          <Image
+            src="/brand/logo-simet.png"
+            alt="SIMET S.A.S."
+            width={600}
+            height={222}
+            className="simet-footer__logo"
+          />
+          <p className="simet-footer__description">
             Soluciones en metalmecánica para la industria, con precisión, calidad y compromiso.
           </p>
         </div>
 
         {/* Contacto */}
-        <div>
-          <h3 style={{ margin: "0 0 22px", fontSize: 15, fontWeight: 700, color: "#ffffff" }}>
-            Contacto
-          </h3>
+        <div data-reveal style={stagger(1)}>
+          <h3>Contacto</h3>
           <ContactItem
             icon={<path d="M12 2C8.7 2 6 4.7 6 8c0 4.7 6 12 6 12s6-7.3 6-12c0-3.3-2.7-6-6-6zm0 8.2A2.2 2.2 0 1 1 12 5.8a2.2 2.2 0 0 1 0 4.4z" />}
           >
@@ -71,30 +46,18 @@ export default function Footer() {
             <a href="mailto:atencionalcliente@simet.com.co">atencionalcliente@simet.com.co</a>
           </ContactItem>
           <ContactItem
-            icon={<path d="M12 2a10 10 0 1 0 0 20 10 10 0 0 0 0-20zm1 11h5v-2h-4V6h-2v7h1z" />}
+            icon={<path d="M11.99 2C6.47 2 2 6.48 2 12s4.47 10 9.99 10C17.52 22 22 17.52 22 12S17.52 2 11.99 2zM12 20c-4.42 0-8-3.58-8-8s3.58-8 8-8 8 3.58 8 8-3.58 8-8 8zm.5-13H11v6l5.25 3.15.75-1.23-4.5-2.67z" />}
           >
             Lun – Vie 8:00 a.m. – 5:00 p.m.
           </ContactItem>
         </div>
 
         {/* Navegación */}
-        <div>
-          <h3 style={{ margin: "0 0 22px", fontSize: 15, fontWeight: 700, color: "#ffffff" }}>
-            Navegación
-          </h3>
-          <nav style={{ display: "flex", flexDirection: "column", gap: 10 }}>
+        <div data-reveal style={stagger(2)}>
+          <h3>Navegación</h3>
+          <nav className="simet-footer__nav">
             {footerNav.map((link) => (
-              <Link
-                key={link.href}
-                href={link.href}
-                style={{
-                  color: "#aebac3",
-                  fontSize: 13,
-                  textDecoration: "none",
-                  transition: "color 0.2s ease, transform 0.2s ease",
-                  display: "inline-block",
-                }}
-              >
+              <Link key={link.href} href={link.href}>
                 {link.label}
               </Link>
             ))}
@@ -102,66 +65,33 @@ export default function Footer() {
         </div>
 
         {/* Redes sociales */}
-        <div>
-          <h3 style={{ margin: "0 0 22px", fontSize: 15, fontWeight: 700, color: "#ffffff" }}>
-            Redes sociales
-          </h3>
-          <div style={{ display: "flex", gap: 10 }}>
+        <div data-reveal style={stagger(3)}>
+          <h3>Redes sociales</h3>
+          <div className="simet-footer__social-list">
             <SocialButton href="https://www.facebook.com/share/1MQqpSHH1A/" label="Facebook">
-              f
+              <path d="M15 3h-2.5A3.5 3.5 0 0 0 9 6.5V9H7v3h2v9h3v-9h2.5l.5-3h-3V7a1 1 0 0 1 1-1h2z" />
             </SocialButton>
             <SocialButton href="https://www.instagram.com/simet_s.a.s" label="Instagram">
-              ◎
+              <rect x="3" y="3" width="18" height="18" rx="5" fill="none" stroke="currentColor" strokeWidth="2" />
+              <circle cx="12" cy="12" r="4" fill="none" stroke="currentColor" strokeWidth="2" />
+              <circle cx="17.5" cy="6.5" r="1.2" />
             </SocialButton>
           </div>
         </div>
       </div>
 
       {/* Franja inferior */}
-      <div style={{ width: "100%", borderTop: "1px solid rgba(255,255,255,0.08)" }}>
-        <div
-          style={{
-            width: "90%",
-            maxWidth: 1300,
-            minHeight: 64,
-            margin: "0 auto",
-            display: "flex",
-            alignItems: "center",
-            justifyContent: "space-between",
-            gap: 20,
-            padding: "16px 0",
-          }}
-          className="simet-footer-bottom"
-        >
-          <p style={{ fontSize: "11.5px", color: "#82939f", margin: 0 }}>
+      <div className="simet-footer__bottom">
+        <div className="simet-footer__bottom-inner" data-reveal="fade">
+          <p className="simet-footer__copyright">
             © 2026 SIMET S.A.S. — Todos los derechos reservados.
           </p>
-          <div style={{ display: "flex", alignItems: "center", gap: 14 }}>
-            <span style={{ fontSize: 10, fontWeight: 600, letterSpacing: "0.8px", color: "#81919c" }}>
-              PRECISIÓN QUE IMPULSA LA INDUSTRIA
-            </span>
-            <i
-              style={{
-                width: 32,
-                height: 2,
-                background: "#b20b12",
-                borderRadius: 2,
-                display: "block",
-              }}
-            />
+          <div className="simet-footer__slogan">
+            <span>PRECISIÓN QUE IMPULSA LA INDUSTRIA</span>
+            <i className="simet-footer-slogan-line" />
           </div>
         </div>
       </div>
-
-      <style>{`
-        @media (max-width: 1040px) {
-          .simet-footer-grid { grid-template-columns: 1fr 1fr !important; column-gap: 40px !important; row-gap: 40px !important; padding: 50px 0 35px !important; }
-        }
-        @media (max-width: 600px) {
-          .simet-footer-grid { grid-template-columns: 1fr !important; gap: 32px !important; padding: 40px 0 30px !important; }
-          .simet-footer-bottom { flex-direction: column !important; align-items: flex-start !important; gap: 14px !important; padding: 20px 0 !important; }
-        }
-      `}</style>
     </footer>
   );
 }
@@ -174,32 +104,13 @@ function ContactItem({
   children: React.ReactNode;
 }) {
   return (
-    <div
-      style={{
-        display: "grid",
-        gridTemplateColumns: "20px minmax(0, 1fr)",
-        gap: 12,
-        alignItems: "start",
-        marginBottom: 14,
-      }}
-    >
-      <span
-        style={{
-          width: 20,
-          height: 20,
-          display: "flex",
-          alignItems: "center",
-          justifyContent: "center",
-          marginTop: 2,
-        }}
-      >
-        <svg width={16} height={16} viewBox="0 0 24 24" fill="#cbd5e1">
+    <div className="simet-footer__contact-item">
+      <span className="simet-footer__contact-icon">
+        <svg viewBox="0 0 24 24" aria-hidden="true">
           {icon}
         </svg>
       </span>
-      <p style={{ fontSize: 13, lineHeight: 1.5, color: "#aebac3", margin: 0 }}>
-        {children}
-      </p>
+      <p>{children}</p>
     </div>
   );
 }
@@ -219,23 +130,11 @@ function SocialButton({
       target="_blank"
       rel="noopener noreferrer"
       aria-label={label}
-      style={{
-        width: 38,
-        height: 38,
-        border: "1px solid rgba(255,255,255,0.25)",
-        borderRadius: 4,
-        background: "rgba(255,255,255,0.04)",
-        display: "flex",
-        alignItems: "center",
-        justifyContent: "center",
-        fontSize: 15,
-        fontWeight: 700,
-        color: "#ffffff",
-        textDecoration: "none",
-        transition: "background 0.25s ease, border-color 0.25s ease, transform 0.25s ease",
-      }}
+      className="simet-footer__social-button"
     >
-      {children}
+      <svg viewBox="0 0 24 24" aria-hidden="true">
+        {children}
+      </svg>
     </a>
   );
 }

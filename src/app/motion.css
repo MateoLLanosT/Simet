@@ -1,0 +1,242 @@
+/* ============================================================
+   SISTEMA DE MOVIMIENTO SIMET
+   Un solo vocabulario para todo el sitio: misma curva, misma
+   duración y el mismo escalonado. Los valores de `data-reveal`
+   son: up (por defecto) · left · right · zoom · fade · unveil.
+   ============================================================ */
+
+:root {
+  --ease-out: cubic-bezier(0.22, 1, 0.36, 1);
+  --reveal-duration: 0.8s;
+  --reveal-step: 90ms;
+  --reveal-distance: 28px;
+}
+
+@keyframes simet-rise {
+  from {
+    opacity: 0;
+    transform: translate3d(0, var(--reveal-distance), 0);
+  }
+}
+
+@keyframes simet-from-left {
+  from {
+    opacity: 0;
+    transform: translate3d(-40px, 0, 0);
+  }
+}
+
+@keyframes simet-from-right {
+  from {
+    opacity: 0;
+    transform: translate3d(40px, 0, 0);
+  }
+}
+
+@keyframes simet-zoom {
+  from {
+    opacity: 0;
+    transform: scale(0.94);
+  }
+}
+
+@keyframes simet-fade {
+  from {
+    opacity: 0;
+  }
+}
+
+/* Cortina lateral para las fotos grandes, evoca el paso de un corte */
+@keyframes simet-unveil {
+  from {
+    clip-path: inset(0 0 0 100% round var(--radius-lg));
+  }
+  to {
+    clip-path: inset(0 0 0 0 round var(--radius-lg));
+  }
+}
+
+@keyframes simet-settle {
+  from {
+    transform: scale(1.15);
+  }
+}
+
+@keyframes simet-draw-x {
+  from {
+    transform: scaleX(0);
+  }
+}
+
+@keyframes simet-draw-y {
+  from {
+    transform: scaleY(0);
+  }
+}
+
+@keyframes simet-kenburns {
+  from {
+    transform: scale(1.12);
+  }
+  to {
+    transform: scale(1);
+  }
+}
+
+@keyframes simet-spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+/* ------------------------------------------------------------
+   Revelado al hacer scroll (lo activa RevealObserver)
+   `backwards` y no `both`: al terminar, el elemento vuelve a sus
+   estilos normales y los :hover con transform siguen funcionando.
+   ------------------------------------------------------------ */
+[data-reveal] {
+  opacity: 0;
+}
+
+[data-reveal].is-visible {
+  opacity: 1;
+  animation: simet-rise var(--reveal-duration) var(--ease-out)
+    calc(var(--i, 0) * var(--reveal-step)) backwards;
+}
+
+[data-reveal="left"].is-visible {
+  animation-name: simet-from-left;
+}
+
+[data-reveal="right"].is-visible {
+  animation-name: simet-from-right;
+}
+
+[data-reveal="zoom"].is-visible {
+  animation-name: simet-zoom;
+}
+
+[data-reveal="fade"].is-visible {
+  animation-name: simet-fade;
+}
+
+[data-reveal="unveil"].is-visible {
+  animation-name: simet-unveil;
+  animation-duration: 1.1s;
+}
+
+[data-reveal="unveil"].is-visible img {
+  animation: simet-settle 1.4s var(--ease-out) backwards;
+}
+
+/* Línea roja de marca: se dibuja cuando su bloque aparece */
+.is-visible .simet-red-indicator,
+.simet-enter .simet-red-indicator,
+.simet-red-indicator.simet-enter {
+  animation: simet-draw-x 0.9s var(--ease-out)
+    calc(var(--i, 0) * var(--reveal-step) + 0.25s) backwards;
+}
+
+.is-visible .simet-footer-slogan-line {
+  animation: simet-draw-x 0.9s var(--ease-out) 0.3s backwards;
+}
+
+/* ------------------------------------------------------------
+   Entrada inmediata (contenido sobre el pliegue, sin JS)
+   ------------------------------------------------------------ */
+.simet-enter {
+  animation: simet-rise 0.9s var(--ease-out) calc(var(--i, 0) * 120ms + 0.1s) backwards;
+}
+
+.simet-enter-right {
+  animation: simet-from-right 0.9s var(--ease-out) calc(var(--i, 0) * 120ms + 0.1s) backwards;
+}
+
+/* ------------------------------------------------------------
+   Isotipo SIMET (piñones del logo)
+   Cada piñón gira sobre su propio centro en coordenadas del viewBox.
+   B tiene 8 dientes frente a 10 de A: gira 10/8 más rápido y al revés.
+   ------------------------------------------------------------ */
+.simet-isotipo {
+  display: block;
+  --gear-period: 8s;
+}
+
+.simet-isotipo path {
+  transform-box: view-box;
+}
+
+.simet-isotipo__a {
+  transform-origin: 37px 37px;
+}
+
+.simet-isotipo__b {
+  transform-origin: 71px 71px;
+}
+
+.simet-isotipo--brand .simet-isotipo__a {
+  fill: var(--navy-title);
+}
+
+.simet-isotipo--brand .simet-isotipo__b,
+.simet-isotipo--light .simet-isotipo__b {
+  fill: var(--primary-red);
+}
+
+.simet-isotipo--light .simet-isotipo__a {
+  fill: #e2e8f0;
+}
+
+.simet-isotipo--mono path {
+  fill: currentColor;
+}
+
+.simet-isotipo--spin .simet-isotipo__a {
+  animation: simet-spin var(--gear-period) linear infinite;
+}
+
+.simet-isotipo--spin .simet-isotipo__b {
+  animation: simet-spin calc(var(--gear-period) * 0.8) linear infinite reverse;
+}
+
+.simet-gears {
+  position: absolute;
+  width: 380px;
+  height: 380px;
+  pointer-events: none;
+  color: var(--white);
+  opacity: 0.07;
+  z-index: 0;
+}
+
+.simet-gears .simet-isotipo {
+  --gear-period: 60s;
+}
+
+/* ------------------------------------------------------------
+   Accesibilidad: sin movimiento si el usuario lo pide
+   ------------------------------------------------------------ */
+@media (prefers-reduced-motion: reduce) {
+  [data-reveal],
+  [data-reveal].is-visible {
+    opacity: 1;
+    animation: none !important;
+  }
+
+  [data-reveal] img,
+  .simet-enter,
+  .simet-enter-right,
+  .simet-red-indicator,
+  .simet-footer-slogan-line,
+  .simet-home-hero__bg,
+  .simet-image-caption,
+  .simet-isotipo path {
+    animation: none !important;
+  }
+
+  *,
+  *::before,
+  *::after {
+    transition-duration: 0.01ms !important;
+  }
+}
