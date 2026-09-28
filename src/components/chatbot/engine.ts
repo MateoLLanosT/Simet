@@ -37,6 +37,8 @@ function score(intent: Intent, text: string) {
  */
 export async function respond(message: string, context: ChatContext): Promise<BotReply> {
   const text = normalize(message);
+  const selection = INTENTS.find((intent) => intent.selections?.some((label) => normalize(label) === text));
+  if (selection) return selection.reply(selection.topic ?? context.topic);
   const ranked = INTENTS.map((intent) => ({ intent, score: score(intent, text) }))
     .filter((r) => r.score > 0)
     .sort((a, b) => b.score - a.score);

@@ -1,3 +1,5 @@
+import { PLAN_FORMATS } from "../../lib/quote-validation";
+
 /**
  * Base de conocimiento del asistente. Todo el contenido sale del propio sitio
  * (páginas de servicio, home, footer y formulario de contacto): si algo cambia
@@ -12,7 +14,7 @@ export const SIMET = {
   mapa: "https://www.google.com/maps/search/?api=1&query=Carrera+3+%2316-58+Mosquera+Cundinamarca",
   horario: "Lunes a viernes, 8:00 a.m. – 5:00 p.m.",
   respuesta: "menos de 24 horas hábiles",
-  formatos: "PDF, DWG, DXF, STEP o STL (máx. 20 MB)",
+  formatos: PLAN_FORMATS,
 };
 
 export type TopicId = "cnc" | "laser" | "modelado3d" | "proyectos" | "asesoria" | "productos";
@@ -53,7 +55,9 @@ export const whatsappAction = (topic?: TopicId): ChatAction => ({
   kind: "whatsapp",
 });
 
-export const MAIN_SUGGESTIONS = ["Servicios", "Solicitar cotización", "Productos", "Horario y ubicación", "Hablar con un asesor"];
+export const MAIN_SUGGESTIONS = ["Portafolio de servicios", "Sectores productivos", "Solicitar cotización", "Productos", "Horario y ubicación", "Hablar con un asesor"];
+export const SERVICE_SUGGESTIONS = ["Mecanizado CNC", "Corte láser", "Modelado 3D", "Diseño de proyectos", "Asesoría DFM"];
+export const SECTOR_SUGGESTIONS = ["Alimentos y bebidas", "Plásticos y empaques", "Automotriz", "Otros sectores"];
 
 export const WELCOME: BotReply = {
   text: [
@@ -65,6 +69,8 @@ export const WELCOME: BotReply = {
 
 export interface Intent {
   id: string;
+  /** Selecciones exactas de botones: tienen prioridad sobre palabras clave. */
+  selections?: string[];
   /** Raíces en minúscula y sin tildes; coinciden al inicio de palabra. Con "$" al final, solo palabra completa */
   keywords: string[];
   topic?: TopicId;
@@ -78,10 +84,25 @@ const serviceReply = (topic: TopicId, text: string[], href?: string): BotReply =
     ...(href ? [{ label: "Ver servicio", href, kind: "secondary" as const }] : []),
     cotizarAction,
   ],
-  suggestions: ["Formatos de archivo", "Tiempo de respuesta", "Hablar con un asesor"],
+  suggestions: ["Formatos de archivo", "Tiempo de respuesta", "Hablar con un asesor", "Portafolio de servicios", "Sectores productivos", "Menú principal"],
 });
 
 export const INTENTS: Intent[] = [
+  {
+    id: "menu",
+    selections: ["Menú principal"],
+    keywords: ["menu", "volver", "inicio"],
+    reply: () => ({ text: ["¿Qué deseas consultar?"], suggestions: MAIN_SUGGESTIONS }),
+  },
+  ...SECTOR_SUGGESTIONS.map((sector, index): Intent => ({
+    id: `sector-${index}`,
+    selections: [sector],
+    keywords: [["alimento", "bebida"], ["plastic", "empaque"], ["automotri"], ["otros sectores", "construccion", "publicidad"]][index],
+    reply: () => ({
+      text: [`Seleccionaste **${sector}**. ¿Qué servicio necesitas para tu proyecto?`],
+      suggestions: [...SERVICE_SUGGESTIONS, "Sectores productivos", "Menú principal"],
+    }),
+  })),
   {
     id: "cotizacion",
     keywords: ["cotiz", "precio", "cuanto cuesta", "cuanto vale", "costo de", "presupuesto", "valor de", "tarifa"],
@@ -99,6 +120,7 @@ export const INTENTS: Intent[] = [
   },
   {
     id: "cnc",
+    selections: ["Mecanizado CNC"],
     topic: "cnc",
     keywords: ["cnc", "mecaniz", "maquinad", "torno", "tornead", "fresa", "fresad", "pieza", "repuesto", "reparacion", "mantenimiento", "rectific", "mandrin", "buje"],
     reply: () =>
@@ -113,6 +135,7 @@ export const INTENTS: Intent[] = [
   },
   {
     id: "laser",
+    selections: ["Corte láser"],
     topic: "laser",
     keywords: ["laser", "corte", "cortar", "lamina", "chapa", "fibra", "nesting", "celosia"],
     reply: () =>
@@ -127,6 +150,7 @@ export const INTENTS: Intent[] = [
   },
   {
     id: "modelado3d",
+    selections: ["Modelado 3D"],
     topic: "modelado3d",
     keywords: ["3d", "modelad", "cad", "render", "ingenieria inversa", "parametric", "escane", "diseno de pieza"],
     reply: () =>
@@ -141,6 +165,7 @@ export const INTENTS: Intent[] = [
   },
   {
     id: "proyectos",
+    selections: ["Diseño de proyectos"],
     topic: "proyectos",
     keywords: ["proyecto", "maquina", "maquinaria", "transportador", "banda", "automatiz", "neumatic", "retrofit", "utillaje", "jig", "fixture", "linea de produccion"],
     reply: () =>
@@ -154,6 +179,7 @@ export const INTENTS: Intent[] = [
   },
   {
     id: "asesoria",
+    selections: ["Asesoría DFM"],
     topic: "asesoria",
     keywords: ["asesor tecnic", "asesoria", "dfm", "optimiz", "reducir costo", "tolerancia", "fabricabilidad", "revision de plano"],
     reply: () =>
@@ -167,14 +193,15 @@ export const INTENTS: Intent[] = [
   },
   {
     id: "servicios",
-    keywords: ["servicio", "que hacen", "que ofrecen", "a que se dedican", "catalogo"],
+    selections: ["Portafolio de servicios", "Servicios"],
+    keywords: ["portafolio", "servicio", "que hacen", "que ofrecen", "a que se dedican", "catalogo"],
     reply: () => ({
       text: [
         "Estos son nuestros servicios:",
         "• **Mecanizado CNC**: torno, fresa y piezas especiales\n• **Corte láser** de alta precisión\n• **Diseño y modelado 3D**\n• **Diseño de proyectos** metalmecánicos\n• **Asesoría técnica** en DFM y costos",
         "¿Sobre cuál quieres saber más?",
       ],
-      suggestions: ["Mecanizado CNC", "Corte láser", "Modelado 3D", "Diseño de proyectos", "Asesoría DFM"],
+      suggestions: [...SERVICE_SUGGESTIONS, "Sectores productivos", "Menú principal"],
     }),
   },
   {
@@ -192,14 +219,15 @@ export const INTENTS: Intent[] = [
   },
   {
     id: "industrias",
-    keywords: ["industria", "sector", "alimento", "bebida", "plastic", "empaque", "automotri", "construccion", "publicidad"],
+    selections: ["Sectores productivos"],
+    keywords: ["industria", "sector"],
     reply: () => ({
       text: [
         "Atendemos a la industria de **alimentos y bebidas**, **plásticos y empaques** y **automotriz**, además de construcción, publicidad y otros sectores.",
         "Por ejemplo: líneas sanitarias en acero inoxidable, moldes y herramentales, utillajes y galgas de verificación.",
       ],
       actions: [{ label: "Ver sectores", href: "/#sectores", kind: "secondary" }],
-      suggestions: ["Servicios", "Solicitar cotización"],
+      suggestions: [...SECTOR_SUGGESTIONS, "Portafolio de servicios", "Menú principal"],
     }),
   },
   {
@@ -231,11 +259,12 @@ export const INTENTS: Intent[] = [
   },
   {
     id: "archivos",
-    keywords: ["archivo", "adjunt", "plano", "dwg", "dxf", "step", "stl", "pdf", "formato", "enviar diseno"],
+    keywords: ["archivo", "adjunt", "plano", "dwg", "dxf", "step", "stp", "stl", "pdf", "formato", "enviar diseno"],
     reply: (topic) => ({
       topic,
       text: [
         `Puedes adjuntar tu plano o modelo en **${SIMET.formatos}** directamente en el formulario de cotización.`,
+        "También puedes confirmar que tienes planos y los enviarás después, o indicar que aún no tienes planos técnicos.",
         "Si solo tienes una muestra física, también podemos hacer el levantamiento dimensional.",
       ],
       actions: [cotizarAction],

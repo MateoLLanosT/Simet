@@ -1,8 +1,9 @@
 "use client";
 
-import { useState, useRef } from "react";
+import { useState, useRef, type DragEvent, type FormEvent } from "react";
 import Script from "next/script";
 import { stagger } from "@/lib/motion";
+import { PLAN_ACCEPT, PLAN_FORMATS, validateContact, validatePlan } from "@/lib/quote-validation";
 
 interface FormData {
   nombre: string;
@@ -30,6 +31,8 @@ const initialForm: FormData = {
 export default function ContactForm() {
   const [formData, setFormData] = useState<FormData>(initialForm);
   const [archivo, setArchivo] = useState<File | null>(null);
+  const [estadoPlano, setEstadoPlano] = useState("");
+  const [errorArchivo, setErrorArchivo] = useState<string | null>(null);
   const [arrastrando, setArrastrando] = useState(false);
   const [enviando, setEnviando] = useState(false);
   const [mensaje, setMensaje] = useState<{ tipo: "exito" | "error"; texto: string } | null>(null);
@@ -40,10 +43,22 @@ export default function ContactForm() {
     setFormData({ ...formData, [e.target.name]: e.target.value });
   };
 
+  const clearFile = () => {
+    setArchivo(null);
+    setErrorArchivo(null);
+    if (fileInputRef.current) fileInputRef.current.value = "";
+  };
+
+  const selectFile = (files: FileList) => {
+    if (files.length === 0) return;
+    const error = files.length > 1 ? "Adjunta un solo plano por solicitud." : validatePlan(files[0]);
+    setErrorArchivo(error);
+    setArchivo(error ? null : files[0]);
+    if (error && fileInputRef.current) fileInputRef.current.value = "";
+  };
+
   const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    if (e.target.files && e.target.files.length > 0) {
-      setArchivo(e.target.files[0]);
-    }
+    if (e.target.files) selectFile(e.target.files);
   };
 
   // Drag & Drop
@@ -60,25 +75,37 @@ export default function ContactForm() {
   const handleDrop = (e: DragEvent<HTMLDivElement>) => {
     e.preventDefault();
     setArrastrando(false);
-    if (e.dataTransfer.files.length > 0) {
-      setArchivo(e.dataTransfer.files[0]);
-    }
+    selectFile(e.dataTransfer.files);
   };
 
   // Envío del formulario
   const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
+    if (enviando) return;
+    const error = validateContact(formData)
+      ?? (!formData.descripcion.trim() ? "Describe tu requerimiento técnico." : null)
+      ?? (!estadoPlano ? "Indica si tienes planos técnicos." : null)
+      ?? (estadoPlano === "adjuntar"
+        ? (archivo ? validatePlan(archivo) : "Selecciona un plano válido para adjuntar.")
+        : null);
+    if (error) {
+      setMensaje({ tipo: "error", texto: error });
+      return;
+    }
     setEnviando(true);
     setMensaje(null);
     try {
       const fd = new FormData();
-      fd.append("fi-sender-fullName", formData.nombre);
-      fd.append("fi-sender-company", formData.empresa);
-      fd.append("fi-sender-email", formData.email);
-      fd.append("fi-sender-phone", formData.telefono);
+      fd.append("fi-sender-fullName", formData.nombre.trim());
+      fd.append("fi-sender-company", formData.empresa.trim());
+      fd.append("fi-sender-email", formData.email.trim());
+      fd.append("fi-sender-phone", formData.telefono.trim());
       fd.append("fi-select-servicio_interes", formData.servicio);
-      fd.append("fi-text-descripcion_tecnica", formData.descripcion);
-      if (archivo) fd.append("fi-file-plano_tecnico", archivo);
+      const plano = estadoPlano === "adjuntar" ? "Plano adjunto"
+        : estadoPlano === "confirmar" ? "El cliente confirma que tiene planos y los enviará después"
+        : "El cliente no tiene planos técnicos";
+      fd.append("fi-text-descripcion_tecnica", `${formData.descripcion.trim()}\n\nPlanos técnicos: ${plano}.`);
+      if (estadoPlano === "adjuntar" && archivo) fd.append("fi-file-plano_tecnico", archivo);
 
       const Forminit = window.Forminit;
       if (!Forminit) throw new Error("Forminit SDK no cargado");
@@ -89,7 +116,8 @@ export default function ContactForm() {
       } else {
         setMensaje({ tipo: "exito", texto: "¡Gracias! Tu solicitud fue enviada correctamente. Te responderemos en menos de 24 horas hábiles." });
         setFormData(initialForm);
-        setArchivo(null);
+        clearFile();
+        setEstadoPlano("");
         if (formRef.current) formRef.current.reset();
       }
     } catch {
@@ -121,18 +149,18 @@ export default function ContactForm() {
                   <input id="campo-nombre" type="text" name="nombre" placeholder="Ej. Carlos Ramírez" value={formData.nombre} onChange={handleChange} required />
                 </div>
                 <div className="campo">
-                  <label className="etiqueta" htmlFor="campo-empresa">Empresa</label>
-                  <input id="campo-empresa" type="text" name="empresa" placeholder="Ej. Industrias XYZ S.A.S" value={formData.empresa} onChange={handleChange} />
+                  <label className="etiqueta" htmlFor="campo-empresa">Razón social *</label>
+                  <input id="campo-empresa" type="text" name="empresa" placeholder="Ej. Industrias XYZ S.A.S" value={formData.empresa} onChange={handleChange} required />
                 </div>
               </div>
               <div className="campos-fila">
                 <div className="campo">
-                  <label className="etiqueta" htmlFor="campo-email">Correo electrónico *</label>
+                  <label className="etiqueta" htmlFor="campo-email">Correo corporativo *</label>
                   <input id="campo-email" type="email" name="email" placeholder="correo@empresa.com" value={formData.email} onChange={handleChange} required />
                 </div>
                 <div className="campo">
-                  <label className="etiqueta" htmlFor="campo-telefono">Teléfono / WhatsApp</label>
-                  <input id="campo-telefono" type="text" name="telefono" placeholder="+57 300 000 0000" value={formData.telefono} onChange={handleChange} />
+                  <label className="etiqueta" htmlFor="campo-telefono">Teléfono / WhatsApp *</label>
+                  <input id="campo-telefono" type="tel" name="telefono" placeholder="+57 300 000 0000" value={formData.telefono} onChange={handleChange} required />
                 </div>
               </div>
               <div className="campo">
@@ -151,6 +179,18 @@ export default function ContactForm() {
                 <textarea id="campo-descripcion" name="descripcion" placeholder="Describa materiales, dimensiones, tolerancias, cantidad de piezas, plazos de entrega u otros detalles técnicos relevantes..." value={formData.descripcion} onChange={handleChange} required />
               </div>
               <div className="campo">
+                <label className="etiqueta" htmlFor="campo-planos">¿Tienes planos técnicos? *</label>
+                <select id="campo-planos" value={estadoPlano} required onChange={(e) => {
+                  setEstadoPlano(e.target.value);
+                  clearFile();
+                }}>
+                  <option value="">-- Seleccione una opción --</option>
+                  <option value="adjuntar">Sí, adjuntar un plano ahora</option>
+                  <option value="confirmar">Sí, tengo planos y los enviaré después</option>
+                  <option value="sin-planos">No tengo planos técnicos</option>
+                </select>
+              </div>
+              {estadoPlano === "adjuntar" && <div className="campo">
                 <span className="etiqueta">Adjuntar plano o descripción técnica</span>
                 <div
                   className={`zona-carga ${arrastrando ? "is-dragging" : ""}`}
@@ -161,11 +201,13 @@ export default function ContactForm() {
                 >
                   <div className="icono-subir">&#8593;</div>
                   <p>Arrastre su archivo aquí o <button type="button" className="enlace">seleccione desde su equipo</button></p>
-                  <small>PDF, DWG, DXF, STEP, STL - máx. 20 MB</small>
+                  <small id="formatos-plano">{PLAN_FORMATS}</small>
                   {archivo && <div className="nombre-archivo">Archivo seleccionado: {archivo.name}</div>}
                 </div>
-                <input ref={fileInputRef} type="file" accept=".pdf,.dwg,.dxf,.step,.stl" onChange={handleFileChange} hidden />
-              </div>
+                <input ref={fileInputRef} type="file" accept={PLAN_ACCEPT} onChange={handleFileChange} aria-label="Seleccionar plano técnico" aria-describedby="formatos-plano" hidden />
+                {archivo && <button type="button" className="enlace" onClick={clearFile}>Quitar archivo</button>}
+                {errorArchivo && <p className="mensaje-resultado error" role="alert">{errorArchivo}</p>}
+              </div>}
               <button type="submit" disabled={enviando} className="simet-btn-red">
                 {enviando ? "Enviando..." : "Enviar solicitud"}
               </button>
@@ -217,6 +259,6 @@ export default function ContactForm() {
           </div>
         </div>
       </div>
-    </>
+    </section>
   );
 }
