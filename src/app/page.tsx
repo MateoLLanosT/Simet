@@ -2,118 +2,10 @@ import Image from "next/image";
 import Link from "next/link";
 import ServiceCard from "@/components/ServiceCard";
 import GearMark from "@/components/GearMark";
+import RichText from "@/components/RichText";
+import { home } from "@/lib/home-content";
 import { images } from "@/lib/images";
 import { stagger } from "@/lib/motion";
-
-const services = [
-  {
-    image: images.cnc,
-    title: "Centro de Fabricación y Diseño CNC",
-    description: "Mecanizado de precisión, fabricación de piezas especiales, diseño industrial, torno, fresa y reparación de maquinaria.",
-    link: "/servicios/mecanizado-cnc",
-  },
-  {
-    image: images.laser,
-    title: "Corte Láser de Alta Precisión",
-    description: "Corte de alta precisión para proyectos industriales, arquitectónicos, publicitarios y decorativos.",
-    link: "/servicios/corte-laser",
-  },
-  {
-    image: images.modelado3d,
-    title: "Diseño y modelado 3D",
-    description: "Modelado paramétrico y desarrollo visual para la fabricación de piezas y nuevos proyectos industriales.",
-    link: "/servicios/modelado-3d",
-  },
-  {
-    image: images.proyectos,
-    title: "Diseño de proyectos",
-    description: "Ingeniería, planificación y desarrollo de soluciones industriales adaptadas a cada requerimiento.",
-    link: "/servicios/diseno-proyectos",
-  },
-  {
-    image: images.asesoria,
-    title: "Asesoría para fabricación",
-    description: "Acompañamiento técnico en procesos de manufactura, desde el diseño hasta la entrega final.",
-    link: "/servicios/asesoria-dfm",
-  },
-];
-
-const industries = [
-  {
-    image: images.alimentos,
-    title: "Alimentos y bebidas",
-    description: "Equipos sanitarios y de proceso para la industria de alimentos y bebidas con tolerancias sanitarias estrictas.",
-    link: "/servicios/diseno-proyectos",
-  },
-  {
-    image: images.plasticos,
-    title: "Plásticos y empaques",
-    description: "Moldes, herramentales y piezas de precisión para la industria del plástico, formado y empaque masivo.",
-    link: "/servicios/modelado-3d",
-  },
-  {
-    image: images.automotriz,
-    title: "Industria automotriz",
-    description: "Desarrollo y mecanizado de componentes metalmecánicos de alto desempeño para líneas de producción automotriz.",
-    link: "/servicios/asesoria-dfm",
-  },
-];
-
-const products = [
-  {
-    image: images.llaveros,
-    icon: "◇",
-    title: "LLAVEROS PERSONALIZADOS",
-    description: "Diseños únicos en metal, ideales para empresas, eventos corporativos y recordatorios de alta calidad.",
-  },
-  {
-    image: images.decorativas,
-    icon: "♫",
-    title: "PIEZAS DECORATIVAS EN METAL",
-    description: "Elementos decorativos con cortes láser de alta precisión para dar presencia estética a tus espacios.",
-  },
-  {
-    image: images.figuras,
-    icon: "▱",
-    title: "FIGURAS DIMENSIONALES",
-    description: "Modelos y figuras en metal ensambladas mediante corte computarizado y tolerancias exactas.",
-  },
-  {
-    image: images.paneles,
-    icon: "△",
-    title: "PANELES DECORATIVOS",
-    description: "Diseños icónicos y personalizados para proyectos arquitectónicos y de interiorismo.",
-  },
-];
-
-const badges = [
-  "Fabricación a la medida",
-  "Alta precisión en cada detalle",
-  "Soluciones para diversas industrias",
-];
-
-const differentiators = [
-  {
-    icon: images.iconoExperiencia,
-    title: "+25 años de experiencia",
-    desc: "Precisión y calidad comprobada en cada proyecto.",
-  },
-  {
-    icon: images.iconoIndustrias,
-    title: "Soluciones para múltiples industrias",
-    desc: "Alimentos, bebidas, plásticos, construcción, publicidad y más.",
-  },
-  {
-    icon: images.iconoAcompanamiento,
-    title: "Acompañamiento personalizado",
-    desc: "Asesoría técnica desde el diseño hasta la entrega final.",
-  },
-  {
-    icon: images.iconoTecnologia,
-    title: "Tecnología de última generación",
-    desc: "Equipos CNC y láser para trabajos de alta precisión.",
-  },
-];
 
 export default function Home() {
   return (
@@ -134,13 +26,13 @@ export default function Home() {
         <div className="simet-container simet-home-hero__inner">
           <div className="simet-home-hero__content">
             <span className="simet-home-hero__tag simet-enter" style={stagger(0)}>
-              METALMECÁNICA DE PRECISIÓN
+              {home.hero.tag}
             </span>
             <h1 className="simet-home-hero__title simet-enter" style={stagger(1)}>
-              Confía tus proyectos a expertos en metalmecánica
+              {home.hero.title}
             </h1>
             <p className="simet-home-hero__lead simet-enter" style={stagger(2)}>
-              Obtén piezas únicas y a la medida de tus necesidades.
+              {home.hero.lead}
             </p>
             <div className="simet-home-hero__actions simet-enter" style={stagger(3)}>
               <Link href="/contacto" className="simet-btn-red">
@@ -153,7 +45,7 @@ export default function Home() {
           </div>
 
           <div className="simet-home-hero__badge">
-            {["PRECISIÓN", "INGENIERÍA", "SOLUCIONES REALES"].map((word, i) => (
+            {home.hero.badge.map((word, i) => (
               <span key={word} className="simet-enter-right" style={stagger(i + 3)}>
                 {word}
               </span>
@@ -171,7 +63,7 @@ export default function Home() {
             <h2 className="simet-title-main">¿En qué podemos ayudarle?</h2>
           </div>
           <div className="simet-services-grid">
-            {services.map((s, i) => (
+            {home.services.map((s, i) => (
               <ServiceCard key={s.title} index={i} {...s} />
             ))}
           </div>
@@ -187,7 +79,7 @@ export default function Home() {
             <h2 className="simet-title-main">Industrias donde operamos</h2>
           </div>
           <div className="simet-industrias-grid">
-            {industries.map((ind, i) => (
+            {home.industries.map((ind, i) => (
               <article key={ind.title} className="simet-industria-card" data-reveal style={stagger(i)}>
                 <div className="simet-card-thumb">
                   <Image
@@ -216,14 +108,11 @@ export default function Home() {
           <div className="simet-productos-header" data-reveal>
             <span className="simet-red-indicator simet-red-indicator--center" />
             <h2>NUESTROS PRODUCTOS</h2>
-            <p>
-              En SIMET fabricamos productos metálicos a la medida, combinando tecnología, precisión y
-              diseño para hacer realidad tus ideas.
-            </p>
+            <p>{home.productsIntro}</p>
           </div>
 
           <div className="simet-productos-grid">
-            {products.map((p, i) => (
+            {home.products.map((p, i) => (
               <article key={p.title} className="simet-producto-card" data-reveal style={stagger(i)}>
                 <div className="simet-card-thumb">
                   <Image
@@ -243,7 +132,7 @@ export default function Home() {
           </div>
 
           <div className="simet-badges-row">
-            {badges.map((badge, i) => (
+            {home.badges.map((badge, i) => (
               <div key={badge} className="simet-badge-item" data-reveal="fade" style={stagger(i)}>
                 <svg viewBox="0 0 24 24" aria-hidden="true">
                   <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 15-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z" />
@@ -261,22 +150,14 @@ export default function Home() {
           <div className="simet-split-exp">
             <div className="simet-exp-content" data-reveal="left">
               <span className="simet-red-indicator" />
-              <h2>Con más de 25 años de experiencia...</h2>
+              <h2>{home.experience.heading}</h2>
             </div>
             <div className="simet-exp-content" data-reveal="right">
-              <p>
-                Somos una empresa especializada en{" "}
-                <strong>
-                  ingeniería mecánica, mantenimiento industrial, mecanizado CNC, torno, fresa,
-                  diseño y fabricación de piezas especiales, y corte por láser
-                </strong>
-                .
-              </p>
-              <p>
-                En SIMET trabajamos con altos estándares de calidad y seguridad, garantizando
-                precisión en cada proceso y soluciones adaptadas a las necesidades de nuestros
-                clientes.
-              </p>
+              {home.experience.body.map((paragraph, i) => (
+                <p key={i}>
+                  <RichText text={paragraph} />
+                </p>
+              ))}
               <Link href="/contacto" className="simet-btn-red">
                 Conócenos <span className="simet-btn-arrow" aria-hidden="true">→</span>
               </Link>
@@ -303,7 +184,7 @@ export default function Home() {
           </h2>
           <div className="simet-mesh-box" data-reveal="zoom">
             <div className="simet-mesh-grid">
-              {differentiators.map((item, i) => (
+              {home.differentiators.map((item, i) => (
                 <div key={item.title} className="simet-mesh-item" data-reveal style={stagger(i + 2)}>
                   <Image src={item.icon} alt="" width={120} height={120} className="simet-mesh-icon" />
                   <h4>{item.title}</h4>

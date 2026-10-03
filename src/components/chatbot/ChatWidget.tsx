@@ -2,6 +2,7 @@
 
 import { useEffect, useRef, useState } from "react";
 import Link from "next/link";
+import RichText from "@/components/RichText";
 import SimetIsotipo from "@/components/SimetIsotipo";
 import { respond } from "./engine";
 import { FALLBACK, WELCOME, whatsappLink, type BotReply, type ChatAction, type TopicId } from "./knowledge";
@@ -281,12 +282,6 @@ export default function ChatWidget() {
       </button>
     </div>
   );
-}
-
-/** Admite **negrita** sin interpretar HTML. */
-function RichText({ text }: { text: string }) {
-  const parts = text.split(/\*\*(.+?)\*\*/g);
-  return <>{parts.map((part, i) => (i % 2 === 1 ? <strong key={i}>{part}</strong> : part))}</>;
 }
 
 function ActionLink({ action, onNavigate }: { action: ChatAction; onNavigate: () => void }) {

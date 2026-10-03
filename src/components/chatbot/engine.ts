@@ -1,4 +1,13 @@
-import { FALLBACK, INTENTS, type BotReply, type Intent, type TopicId } from "./knowledge";
+import {
+  FALLBACK,
+  INTENTS,
+  MAIN_SUGGESTIONS,
+  cotizarAction,
+  whatsappAction,
+  type BotReply,
+  type Intent,
+  type TopicId,
+} from "./knowledge";
 
 export interface ChatContext {
   /** Último servicio del que se habló; da contexto a "quiero cotizar" o "¿tienen WhatsApp?" */
@@ -31,9 +40,33 @@ function score(intent: Intent, text: string) {
 }
 
 /**
- * Responde con reglas sobre la base de conocimiento del sitio.
- * Es asíncrona a propósito: para conectar un proveedor o un modelo de IA
- * basta con reemplazar el cuerpo por una llamada a la API, sin tocar la interfaz.
+ * Lo que las reglas no entienden se consulta a la IA (Gemini, vía /api/chat).
+ * Si la IA no está configurada, se agotó la cuota o falla, queda la respuesta de siempre.
+ */
+async function askAI(message: string, topic?: TopicId): Promise<BotReply> {
+  try {
+    const res = await fetch("/api/chat", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ message, topic }),
+    });
+    if (!res.ok) return FALLBACK(topic);
+    const { text } = (await res.json()) as { text?: string };
+    if (!text) return FALLBACK(topic);
+    return {
+      topic,
+      text: text.split(/\n+/).filter(Boolean),
+      actions: [cotizarAction, whatsappAction(topic)],
+      suggestions: MAIN_SUGGESTIONS,
+    };
+  } catch {
+    return FALLBACK(topic);
+  }
+}
+
+/**
+ * Responde con reglas sobre la base de conocimiento del sitio; las preguntas
+ * que no reconoce las pasa a la IA.
  */
 export async function respond(message: string, context: ChatContext): Promise<BotReply> {
   const text = normalize(message);
@@ -43,7 +76,7 @@ export async function respond(message: string, context: ChatContext): Promise<Bo
     .filter((r) => r.score > 0)
     .sort((a, b) => b.score - a.score);
 
-  if (ranked.length === 0) return FALLBACK(context.topic);
+  if (ranked.length === 0) return askAI(message, context.topic);
 
   const prioritized = PRIORITY.map((id) => ranked.find((r) => r.intent.id === id)).find(Boolean);
   const chosen = (prioritized ?? ranked[0]).intent;

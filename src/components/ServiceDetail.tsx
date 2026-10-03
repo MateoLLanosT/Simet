@@ -1,49 +1,10 @@
 import Image from "next/image";
 import Link from "next/link";
 import GearMark from "@/components/GearMark";
-import { FeatureIcon, type IconName } from "@/components/icons";
+import RichText from "@/components/RichText";
+import { FeatureIcon } from "@/components/icons";
 import { stagger } from "@/lib/motion";
-
-export interface Feature {
-  icon?: IconName;
-  /** Etiqueta destacada sobre el título, p. ej. "Torno CNC" o "Hasta 16 mm" */
-  tag?: string;
-  title: string;
-  desc: string;
-}
-
-interface Section {
-  /** Ancla para enlazar la sección desde el hero */
-  id?: string;
-  eyebrow?: string;
-  heading: string;
-  items: Feature[];
-}
-
-interface ServiceDetailProps {
-  eyebrow?: string;
-  title: string;
-  lead: string;
-  ctaLabel: string;
-  /** Enlace secundario del hero hacia una sección de la misma página */
-  secondaryCta?: { label: string; href: string };
-  intro: {
-    eyebrow?: string;
-    heading: string;
-    body: React.ReactNode;
-    /** Puntos clave con check, bajo el texto */
-    highlights?: string[];
-    image: string;
-    imageAlt: string;
-    imageFirst?: boolean;
-    /** Ficha sobre la foto */
-    caption?: { eyebrow: string; title: string; badge?: string };
-  };
-  features: Section;
-  /** Segunda grilla (sectores, materiales, espesores…). Sin título, "Sectores Industriales de Aplicación" */
-  secondary: Omit<Section, "heading"> & { heading?: string };
-  banner: { heading: string; text: string; cta?: string };
-}
+import type { Feature, ServicePageContent } from "@/lib/service-pages";
 
 /** Plantilla común de las páginas de servicio: misma estructura y mismo ritmo de animación. */
 export default function ServiceDetail({
@@ -56,7 +17,7 @@ export default function ServiceDetail({
   features,
   secondary,
   banner,
-}: ServiceDetailProps) {
+}: ServicePageContent) {
   const heroOffset = eyebrow ? 1 : 0;
   const image = (
     <div className="simet-image-wrapper" data-reveal="unveil">
@@ -107,7 +68,11 @@ export default function ServiceDetail({
             <div className="simet-split-content" data-reveal={intro.imageFirst ? "right" : "left"}>
               {intro.eyebrow && <span className="simet-subtag">{intro.eyebrow}</span>}
               <h2>{intro.heading}</h2>
-              {intro.body}
+              {intro.body.map((paragraph, i) => (
+                <p key={i}>
+                  <RichText text={paragraph} />
+                </p>
+              ))}
               {intro.highlights && (
                 <ul className="simet-checks">
                   {intro.highlights.map((item) => (
