@@ -2,17 +2,14 @@ This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-
 
 ## Getting Started
 
-First, run the development server:
+El proyecto usa **npm** (`package-lock.json`). No usar pnpm, yarn ni bun: Vercel elige el gestor según el archivo de bloqueo y otro archivo rompe el despliegue.
 
 ```bash
+npm install
 npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
 ```
+
+Para el asistente con IA, crear `.env.local` con `GEMINI_API_KEY=<clave de https://aistudio.google.com/apikey>`. Sin la clave el chat funciona igual, solo con respuestas por reglas. En Vercel se configura en Settings → Environment Variables.
 
 Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
 
