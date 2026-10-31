@@ -882,6 +882,12 @@ a {
   color: #0f172a;
 }
 
+.simet-exp-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+}
+
 .simet-exp-img-wrap {
   position: relative;
   border-radius: var(--radius-lg);

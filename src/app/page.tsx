@@ -158,9 +158,14 @@ export default function Home() {
                   <RichText text={paragraph} />
                 </p>
               ))}
-              <Link href="/contacto" className="simet-btn-red">
-                Conócenos <span className="simet-btn-arrow" aria-hidden="true">→</span>
-              </Link>
+              <div className="simet-exp-actions">
+                <Link href="/contacto" className="simet-btn-red">
+                  Conócenos <span className="simet-btn-arrow" aria-hidden="true">→</span>
+                </Link>
+                <Link href="/brochure" className="simet-btn-outline">
+                  Ver nuestro brochure
+                </Link>
+              </div>
             </div>
           </div>
 

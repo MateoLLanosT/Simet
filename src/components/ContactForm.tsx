@@ -2,6 +2,7 @@
 
 import { useState, useRef, type DragEvent, type FormEvent } from "react";
 import Script from "next/script";
+import { SIMET } from "@/lib/contact";
 import { stagger } from "@/lib/motion";
 import { PLAN_ACCEPT, PLAN_FORMATS, validateContact, validatePlan } from "@/lib/quote-validation";
 
@@ -112,16 +113,16 @@ export default function ContactForm() {
       const forminit = new Forminit();
       const { error } = await forminit.submit("ltt2uz1fki8", fd);
       if (error) {
-        setMensaje({ tipo: "error", texto: `Hubo un problema: ${error.message}. Por favor intenta de nuevo o escríbenos a atencionalcliente@simet.com.co` });
+        setMensaje({ tipo: "error", texto: `Hubo un problema: ${error.message}. Por favor intenta de nuevo o escríbenos a ${SIMET.email}` });
       } else {
-        setMensaje({ tipo: "exito", texto: "¡Gracias! Tu solicitud fue enviada correctamente. Te responderemos en menos de 24 horas hábiles." });
+        setMensaje({ tipo: "exito", texto: `¡Gracias! Tu solicitud fue enviada correctamente. Te responderemos en ${SIMET.respuesta}.` });
         setFormData(initialForm);
         clearFile();
         setEstadoPlano("");
         if (formRef.current) formRef.current.reset();
       }
     } catch {
-      setMensaje({ tipo: "error", texto: "Error de conexión. Por favor intenta de nuevo o escríbenos a atencionalcliente@simet.com.co" });
+      setMensaje({ tipo: "error", texto: `Error de conexión. Por favor intenta de nuevo o escríbenos a ${SIMET.email}` });
     }
     setEnviando(false);
   };
@@ -141,7 +142,7 @@ export default function ContactForm() {
           <div className="form-lado">
             <div className="eyebrow">Formulario de contacto</div>
             <h2>Solicitar cotización</h2>
-            <p className="descripcion">Complete el formulario con los detalles de su requerimiento. Nuestro equipo técnico le responderá en menos de 24 horas hábiles.</p>
+            <p className="descripcion">Complete el formulario con los detalles de su requerimiento. Nuestro equipo técnico le responderá en {SIMET.respuesta}.</p>
             <form ref={formRef} onSubmit={handleSubmit} className="formulario-cotizacion">
               <div className="campos-fila">
                 <div className="campo">
@@ -218,7 +219,7 @@ export default function ContactForm() {
               )}
               <div className="whatsapp-box">
                 <div className="avatar">WA</div>
-                <p>¿Prefiere contactarnos directamente?<br /><a href="https://wa.me/573173315892" target="_blank" rel="noopener noreferrer">Escribir por WhatsApp corporativo →</a></p>
+                <p>¿Prefiere contactarnos directamente?<br /><a href={`https://wa.me/${SIMET.whatsapp}`} target="_blank" rel="noopener noreferrer">Escribir por WhatsApp corporativo →</a></p>
               </div>
             </form>
           </div>
@@ -227,24 +228,24 @@ export default function ContactForm() {
               <h3>Información de contacto</h3>
               <div className="info-linea">
                 <span className="icono-badge"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5A2.5 2.5 0 1 1 12 6.5a2.5 2.5 0 0 1 0 5z"/></svg></span>
-                Carrera 3 # 16-58, Mosquera, Cundinamarca
+                {SIMET.direccion}
               </div>
               <div className="info-linea">
                 <span className="icono-badge"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6.6 10.8c1.4 2.8 3.8 5.1 6.6 6.6l2.2-2.2c.3-.3.7-.4 1-.2 1.1.4 2.3.6 3.6.6.6 0 1 .4 1 1V20c0 .6-.4 1-1 1C10.6 21 3 13.4 3 4c0-.6.4-1 1-1h3.5c.6 0 1 .4 1 1 0 1.2.2 2.4.6 3.6.1.4 0 .8-.3 1L6.6 10.8z"/></svg></span>
-                (317) 331 5892 – (317) 331 5890
+                {SIMET.telefonos.join(" – ")}
               </div>
               <div className="info-linea">
                 <span className="icono-badge"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M20 4H4c-1.1 0-1.99.9-1.99 2L2 18c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm0 4-8 5-8-5V6l8 5 8-5v2z"/></svg></span>
-                atencionalcliente@simet.com.co
+                {SIMET.email}
               </div>
               <div className="info-linea">
                 <span className="icono-badge"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M11.99 2C6.47 2 2 6.48 2 12s4.47 10 9.99 10C17.52 22 22 17.52 22 12S17.52 2 11.99 2zM12 20c-4.42 0-8-3.58-8-8s3.58-8 8-8 8 3.58 8 8-3.58 8-8 8zm.5-13H11v6l5.25 3.15.75-1.23-4.5-2.67z"/></svg></span>
-                Lun–Vie 7:00am – 5:00pm
+                {SIMET.horario}
               </div>
             </div>
             <div className="info-bloque" data-reveal style={stagger(4)}>
               <h3>Tiempo de respuesta</h3>
-              <p>Respondemos solicitudes en menos de <strong>24 horas hábiles</strong>. Para urgencias, contáctenos directamente por WhatsApp.</p>
+              <p>Respondemos solicitudes en <strong>{SIMET.respuesta}</strong>. Para urgencias, contáctenos directamente por WhatsApp.</p>
             </div>
             <div className="info-bloque" data-reveal style={stagger(5)}>
               <h3>Servicios disponibles</h3>

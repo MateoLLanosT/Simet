@@ -1,5 +1,6 @@
 import { GoogleGenAI } from "@google/genai";
-import { INTENTS, SIMET, TOPIC_LABEL, type TopicId } from "@/components/chatbot/knowledge";
+import { INTENTS, TOPIC_LABEL, type TopicId } from "@/components/chatbot/knowledge";
+import { SIMET } from "@/lib/contact";
 import { home } from "@/lib/home-content";
 import { servicePages, type Feature, type ServiceSlug } from "@/lib/service-pages";
 

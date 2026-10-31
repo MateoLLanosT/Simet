@@ -1,0 +1,10 @@
+{
+  "cover": { "source": "public/legacy/rotate-1136053_1280.jpg", "width": 1280 },
+  "about": { "source": "public/legacy/SIMMET.jpg", "width": 1024 },
+  "why": { "source": "public/legacy/laser.jpg", "width": 1080 },
+  "sector-alimentos": { "source": "public/legacy/Imagen-de-Codex-18-sept-2026-01_13_13.png", "width": 520 },
+  "sector-plasticos": { "source": "public/legacy/Imagen-de-Codex-18-sept-2026-01_13_21.png", "width": 520 },
+  "sector-automotriz": { "source": "public/legacy/Imagen-de-Codex-18-sept-2026-01_13_26.png", "width": 520 },
+  "sector-metalmecanica": { "source": "public/legacy/rotate-1136053_1280.jpg", "width": 520 },
+  "logo": { "source": "public/legacy/Logo-simet-.png", "width": 900, "format": "png" }
+}

@@ -1,21 +1,12 @@
-import { PLAN_FORMATS } from "../../lib/quote-validation";
+import { SIMET } from "@/lib/contact";
+
+export { SIMET };
 
 /**
  * Base de conocimiento del asistente. Todo el contenido sale del propio sitio
  * (páginas de servicio, home, footer y formulario de contacto): si algo cambia
  * en la web, se actualiza aquí.
  */
-
-export const SIMET = {
-  telefonos: ["(317) 331 5892", "(317) 331 5890"],
-  whatsapp: "573173315892",
-  email: "atencionalcliente@simet.com.co",
-  direccion: "Carrera 3 # 16-58, Mosquera, Cundinamarca",
-  mapa: "https://www.google.com/maps/search/?api=1&query=Carrera+3+%2316-58+Mosquera+Cundinamarca",
-  horario: "Lunes a viernes, 8:00 a.m. – 5:00 p.m.",
-  respuesta: "menos de 24 horas hábiles",
-  formatos: PLAN_FORMATS,
-};
 
 export type TopicId = "cnc" | "laser" | "modelado3d" | "proyectos" | "asesoria" | "productos";
 
