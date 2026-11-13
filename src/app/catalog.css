@@ -11,6 +11,18 @@
   border: 1px solid var(--border);
   box-shadow: var(--shadow-md);
   touch-action: none;
+  min-width: 0;
+}
+
+.simet-viewer > div {
+  width: 100% !important;
+}
+
+/* En pantalla completa ocupa toda la pantalla (si no, conserva 520 px de alto) */
+.simet-viewer:fullscreen {
+  height: 100vh;
+  border-radius: 0;
+  border: none;
 }
 
 .simet-viewer--compact {
@@ -120,7 +132,9 @@
 
 .simet-catalog-detail__grid {
   display: grid;
-  grid-template-columns: 1.45fr 1fr;
+  /* minmax(0, …): el canvas tiene ancho en px y, sin esto, al salir de pantalla
+     completa conservaba el ancho de la pantalla y ensanchaba la columna */
+  grid-template-columns: minmax(0, 1.45fr) minmax(0, 1fr);
   gap: 48px;
   align-items: center;
   margin-top: 24px;
@@ -172,7 +186,7 @@
 
 @media (max-width: 900px) {
   .simet-catalog-detail__grid {
-    grid-template-columns: 1fr;
+    grid-template-columns: minmax(0, 1fr);
   }
   .simet-viewer {
     height: 380px;

@@ -1,8 +1,8 @@
 "use client";
 
-import { Suspense, useMemo, useRef, useState, type ComponentRef } from "react";
+import { Suspense, useEffect, useImperativeHandle, useMemo, useRef, useState, type ComponentRef, type Ref } from "react";
 import { Canvas } from "@react-three/fiber";
-import { Bounds, Center, ContactShadows, Environment, Lightformer, OrbitControls, useGLTF } from "@react-three/drei";
+import { Bounds, Center, ContactShadows, Environment, Lightformer, OrbitControls, useBounds, useGLTF } from "@react-three/drei";
 import * as THREE from "three";
 import type { Finish } from "@/lib/catalog";
 
@@ -33,6 +33,13 @@ function Model({ url, finish }: { url: string; finish: Finish }) {
   return <primitive object={object} />;
 }
 
+/** Vuelve al encuadre inicial: misma dirección de cámara y ajuste automático al tamaño actual. */
+function FitHandle({ handle }: { handle: Ref<{ refit: () => void }> }) {
+  const bounds = useBounds();
+  useImperativeHandle(handle, () => ({ refit: () => bounds.refresh().clip().fit() }), [bounds]);
+  return null;
+}
+
 function Studio() {
   return (
     <Environment resolution={256}>
@@ -54,9 +61,31 @@ interface ModelViewerProps {
 export default function ModelViewer({ url, finish, compact = false }: ModelViewerProps) {
   const controls = useRef<ComponentRef<typeof OrbitControls>>(null);
   const wrapper = useRef<HTMLDivElement>(null);
+  const fit = useRef<{ refit: () => void }>(null);
+  const [fullscreen, setFullscreen] = useState(false);
   const [autoRotate, setAutoRotate] = useState(
     () => typeof window === "undefined" || !window.matchMedia("(prefers-reduced-motion: reduce)").matches
   );
+
+  // Cámara a su posición original y nuevo encuadre según el tamaño del visor
+  const resetView = () => {
+    controls.current?.reset();
+    fit.current?.refit();
+  };
+
+  // Al entrar o salir de pantalla completa cambia el tamaño: esperar a que el
+  // canvas se redimensione y recuperar la disposición inicial
+  useEffect(() => {
+    const onChange = () => {
+      setFullscreen(document.fullscreenElement === wrapper.current);
+      window.setTimeout(() => {
+        controls.current?.reset();
+        fit.current?.refit();
+      }, 120);
+    };
+    document.addEventListener("fullscreenchange", onChange);
+    return () => document.removeEventListener("fullscreenchange", onChange);
+  }, []);
 
   return (
     <div ref={wrapper} className={`simet-viewer ${compact ? "simet-viewer--compact" : ""}`}>
@@ -69,6 +98,7 @@ export default function ModelViewer({ url, finish, compact = false }: ModelViewe
             <Center>
               <Model url={url} finish={finish} />
             </Center>
+            <FitHandle handle={fit} />
           </Bounds>
           <ContactShadows position={[0, -0.6, 0]} opacity={0.35} blur={2.4} scale={12} far={4} />
           <Studio />
@@ -86,7 +116,7 @@ export default function ModelViewer({ url, finish, compact = false }: ModelViewe
 
       {!compact && (
         <div className="simet-viewer__toolbar">
-          <button type="button" onClick={() => controls.current?.reset()}>Reiniciar vista</button>
+          <button type="button" onClick={resetView}>Reiniciar vista</button>
           <button type="button" aria-pressed={autoRotate} onClick={() => setAutoRotate((v) => !v)}>
             {autoRotate ? "Detener giro" : "Girar"}
           </button>
@@ -94,7 +124,7 @@ export default function ModelViewer({ url, finish, compact = false }: ModelViewe
             type="button"
             onClick={() => (document.fullscreenElement ? document.exitFullscreen() : wrapper.current?.requestFullscreen())}
           >
-            Pantalla completa
+            {fullscreen ? "Salir de pantalla completa" : "Pantalla completa"}
           </button>
         </div>
       )}
