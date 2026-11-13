@@ -107,6 +107,12 @@ export default function Navbar() {
           </li>
 
           <li>
+            <Link href="/catalogo" className={`simet-nav-link ${pathname.startsWith("/catalogo") ? "active" : ""}`} onClick={closeAll}>
+              Catálogo 3D
+            </Link>
+          </li>
+
+          <li>
             <Link href="/#productos" className="simet-nav-link" onClick={closeAll}>
               Productos
             </Link>
